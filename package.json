@@ -18,6 +18,8 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "@tensorflow/tfjs": "^1.7.4",
+    "@tensorflow/tfjs-node": "^1.7.4",
     "express": "^4.17.1",
     "http": "^0.0.1-security",
     "p5": "^1.0.0"
