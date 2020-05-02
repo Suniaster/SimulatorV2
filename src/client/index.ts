@@ -1,5 +1,3 @@
-import ab from "./something";
+import P5Controller from "./P5Controller";
 
-
-new ab();
-console.log("dawdwa")
+new P5Controller().init()
