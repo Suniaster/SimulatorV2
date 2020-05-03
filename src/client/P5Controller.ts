@@ -37,6 +37,10 @@ export default class P5Controller{
     p.keyPressed = () =>{
       this.inputHandler.handle('keydown', p.key)
     }
+
+    p.keyReleased = () =>{
+      this.inputHandler.handle('keyup', p.key)
+    }
   }
 
   init(){
