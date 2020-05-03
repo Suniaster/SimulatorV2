@@ -20,6 +20,7 @@
   "dependencies": {
     "@tensorflow/tfjs": "^1.7.4",
     "@tensorflow/tfjs-node": "^1.7.4",
+    "detect-collisions": "^2.5.1",
     "express": "^4.17.1",
     "http": "^0.0.1-security",
     "p5": "^1.0.0"
