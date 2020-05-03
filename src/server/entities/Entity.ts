@@ -17,6 +17,7 @@ export type EntityInfo = {
     vel: Point,
     accel: Point,
     type: string,
+    size: {width:number, height:number},
     id: string
 }
 
@@ -25,7 +26,8 @@ export default abstract class Entity extends Polygon{
     protected accel: Point;
     public readonly type: string;
 
-    constructor(position: Point, points?:number[][], public readonly id = Entity.makeid(6)){
+
+    constructor(position: Point, public size?: {width:number, height:number}, points?:number[][], public readonly id = Entity.makeid(6)){
         super(position.x, position.y, points)
         this.vel = {
             x: 0,
@@ -56,6 +58,7 @@ export default abstract class Entity extends Polygon{
             vel: this.vel,
             accel: this.accel,
             type: this.type,
+            size: this.size,
             id: this.id
         }
     }
