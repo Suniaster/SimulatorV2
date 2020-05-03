@@ -12,10 +12,6 @@ export default class World{
 
     public setup(){
         this.entities = new EntityManager();
-
-        /** Testing **/
-        let blob = new Blob({x: 100, y:100}, {width: 50, height:50}, 'blob')
-        this.entities.register(blob);
     }
 
     public start(){
@@ -28,6 +24,11 @@ export default class World{
     
     public reset(){
         this.entities.reset();
+    }
+
+    public createBlob(id?:string){
+        let blob = new Blob({x: 100, y:100}, {width: 50, height:50}, id)
+        this.entities.register(blob);
     }
 
     private passTime(){

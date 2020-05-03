@@ -5,7 +5,12 @@ export default class InputHandler{
         
     }
 
-    handle(key){
+    handle(event:string, key:string){
+        switch(event){
+            case 'keydown':
+                this.socket.emit('moveBlob', {x: 1, y:0})
+            break;
+        }
 
     }
 

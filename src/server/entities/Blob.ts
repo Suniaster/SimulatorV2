@@ -5,6 +5,7 @@ import EntityManager from "../world/EntityManager";
 
 
 export default class Blob extends Entity{
+    type = "Blob";
 
     constructor(position:Point, size:{width:number, height:number}, id?:string){
         super(

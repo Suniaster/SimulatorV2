@@ -35,7 +35,7 @@ export default class P5Controller{
     }
 
     p.keyPressed = () =>{
-
+      this.inputHandler.handle('keydown', p.key)
     }
   }
 
