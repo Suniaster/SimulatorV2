@@ -4,10 +4,11 @@ import InputHandler from './utils/InputHandler';
 import P5World from './world/P5World';
 
 export default class P5Controller{
-
   world: P5World;
   p: p5;
   imageController: ImageController;
+
+  constructor(private inputHandler: InputHandler){}
 
   sketch = (p: p5) => { 
     // Helpers
