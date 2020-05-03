@@ -4,6 +4,10 @@ export default class SocketHandler{
 
     constructor(){
         let socket = io.connect();
+
+        socket.on("allObjectsInfo", (infos)=>{
+            console.log(infos)
+        })
     }
     
 }

@@ -36,6 +36,14 @@ export default class EntityManager{
     public getEntity(id:string):Entity{
         return this.entites[id]
     }
+
+    public getEntitiesInfo():EntityInfo[]{
+        return Object.values(this.entites).reduce((acc, entity)=>{
+            acc.push(entity.getInfo())
+            return acc
+        }, []);
+    }
+
     public getAllEntities():Entity[]{
         return Object.values(this.entites)
     }
