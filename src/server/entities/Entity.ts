@@ -67,8 +67,7 @@ export default abstract class Entity extends Polygon{
      */
     public move(): boolean{
         this.updateVel();
-
-        if(this.vel.x !== 0 && this.vel.y !== 0){
+        if(this.vel.x !== 0 ||this.vel.y !== 0){
             this.x += this.vel.x
             this.y += this.vel.y
             return true;
@@ -80,7 +79,16 @@ export default abstract class Entity extends Polygon{
 
     public moveByOffSet(offSet:Point){
         this.x += offSet.x;
-        this.y += offSet.y
+        this.y += offSet.y;
+    }
+
+    public setVel(newVel:Point){
+        this.vel = newVel;
+    }
+
+    public setVelByOffSet(offset:Point){
+        this.vel.x += offset.x;
+        this.vel.y += offset.y;
     }
 
     private updateVel(){

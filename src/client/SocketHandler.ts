@@ -6,9 +6,9 @@ export default class SocketHandler{
     }
     
     initHandlers(){
-        this.socket.on("allObjectsInfo", (infos)=>{
+        this.socket.on("updateObjects", (infos)=>{
             infos.forEach((info)=>{
-                this.world.entities.register(info)
+                this.world.entities.updateOrCreateEntity(info)
             })
         })
     }

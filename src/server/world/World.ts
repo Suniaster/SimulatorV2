@@ -7,7 +7,7 @@ export default class World{
     public entities: EntityManager
     private timeControl: NodeJS.Timeout
 
-    constructor(){
+    constructor(private io: SocketIO.Server){
     }
 
     public setup(){
@@ -15,7 +15,7 @@ export default class World{
     }
 
     public start(){
-        this.timeControl = setInterval( ()=>this.passTime(), 1000)
+        this.timeControl = setInterval( ()=>this.passTime(), 1000/30)
     }
 
     public stop(){
@@ -32,7 +32,9 @@ export default class World{
     }
 
     private passTime(){
-        this.entities.moveAllEntities();
+        let movedInfos = this.entities.moveAllEntities();
         this.entities.performCollisions();
+
+        if(movedInfos.length > 0) this.io.emit('updateObjects', movedInfos);
     }
 }   

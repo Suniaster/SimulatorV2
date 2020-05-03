@@ -32,6 +32,18 @@ export default class P5EntitiesManager{
         )
     }
 
+    public updateOrCreateEntity(objectInfo: EntityInfo){
+        if(this.storage[objectInfo.id]){
+            this.storage[objectInfo.id].updatePos({
+                x: objectInfo.x, 
+                y: objectInfo.y
+            })
+        }
+        else{
+            this.register(objectInfo)
+        }
+    }
+
     public delete(id){
         delete this.storage[id]
     }

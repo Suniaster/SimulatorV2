@@ -9,17 +9,19 @@ export default class HomeSockets extends SocketManagerBase{
         super(io);
         this.path = '/';
         this.verbose = 'Log Id';
-        this.world = new World();
+        this.world = new World(this.io);
     }
     initialize(){
         this.world.setup();
+        this.world.start();
         this.createConnectionHandler((socket)=>{
             this.world.createBlob(socket.id)
-            socket.emit("allObjectsInfo", this.world.entities.getEntitiesInfo());
+            socket.emit("updateObjects", this.world.entities.getEntitiesInfo());
 
-            socket.on("moveBlob", (direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 })=>{
-                this.world.entities.getEntity(socket.id).moveByOffSet({
-                    x: 10* direction.x,
+            socket.on("changeDirBlob", (direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 })=>{
+                let blob = this.world.entities.getEntity(socket.id)
+                blob.setVel({
+                    x: 10*direction.x,
                     y: 10*direction.y
                 })
             })
