@@ -1,3 +1,7 @@
 import ServerController from "./ServerController";
+import IOController from "./sockets/IOController";
 
-new ServerController().initServer()
+
+let server = new ServerController()
+server.initServer()
+new IOController(server.server).registerControllers()
