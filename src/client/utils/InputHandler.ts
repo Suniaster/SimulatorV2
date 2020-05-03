@@ -1,15 +1,12 @@
-import p5 from "p5";
-import ImageController from "./ImageController";
-import Boss from "./Boss";
+import P5World from "../world/P5World";
 
 export default class InputHandler{
-    public boss: Boss
-    constructor(private p:p5, private imageController=new ImageController(p)){
-        this.boss = new Boss(p, imageController)
+    constructor(private world:P5World, private socket: SocketIOClient.Socket){
+        
     }
 
     handle(key){
-        this.boss.move()
+
     }
 
 }

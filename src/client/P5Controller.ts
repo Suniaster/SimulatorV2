@@ -1,16 +1,23 @@
 import p5 from 'p5'
 import ImageController from './utils/ImageController'
 import InputHandler from './utils/InputHandler';
+import P5World from './world/P5World';
 
 export default class P5Controller{
-  sketch(p: p5){ 
+
+  world: P5World;
+  p: p5;
+  imageController: ImageController;
+
+  sketch = (p: p5) => { 
     // Helpers
-    let imageController = new ImageController(p);
-    let inputController = new InputHandler(p, imageController)
+    this.imageController = new ImageController(p);
+    this.p = p
+    this.world = new P5World(this)
 
     // P5 Functions
     p.preload = () => {
-      imageController.registerImage('boss', 'boss_2.png')
+      this.imageController.registerImage('boss', 'boss_2.png')
     }
   
     p.setup = function () {
@@ -23,16 +30,16 @@ export default class P5Controller{
   
     p.draw = () => {
       p.background(255);
-      inputController.boss.draw()
-      // p.image(imageController.getImage('1'), p.mouseX, p.mouseY)
+      this.world.entities.drawAll();
     }
 
     p.keyPressed = () =>{
-      inputController.handle(p.key)
+
     }
   }
 
   init(){
     new p5(this.sketch)
+    return this
   }
 }
