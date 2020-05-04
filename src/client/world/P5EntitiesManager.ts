@@ -1,6 +1,7 @@
 import P5Entity from "./P5Entity";
 import P5World from "./P5World";
 import { EntityInfo } from "../../shared/types";
+import P5Blob from "./entities/Blob";
 
 export default class P5EntitiesManager{
     storage: {[id: string]: P5Entity}
@@ -10,10 +11,20 @@ export default class P5EntitiesManager{
     }
 
     public register(objectInfo: EntityInfo){
-        this.storage[objectInfo.id] = new P5Entity(
-            objectInfo,
-            this.world
-        )
+        switch(objectInfo.type){
+            case "Blob":
+                this.storage[objectInfo.id] = new P5Blob(
+                    objectInfo,
+                    this.world
+                )
+            break;
+            default:
+                this.storage[objectInfo.id] = new P5Blob(
+                    objectInfo,
+                    this.world
+                )
+            break;
+        }
     }
 
     public updateOrCreateEntity(objectInfo: EntityInfo){
