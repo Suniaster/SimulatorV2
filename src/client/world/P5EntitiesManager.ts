@@ -1,6 +1,7 @@
 import P5Entity from "./P5Entity";
 import P5World from "./P5World";
-import {P5EntityInfo} from './P5Entity'
+import { EntityInfo } from "../../shared/types";
+
 export default class P5EntitiesManager{
     storage: {[id: string]: P5Entity}
 
@@ -8,14 +9,14 @@ export default class P5EntitiesManager{
         this.storage = {}
     }
 
-    public register(objectInfo: P5EntityInfo){
+    public register(objectInfo: EntityInfo){
         this.storage[objectInfo.id] = new P5Entity(
             objectInfo,
             this.world
         )
     }
 
-    public updateOrCreateEntity(objectInfo: P5EntityInfo){
+    public updateOrCreateEntity(objectInfo: EntityInfo){
         if(this.storage[objectInfo.id]){
             this.storage[objectInfo.id].update(objectInfo)
         }

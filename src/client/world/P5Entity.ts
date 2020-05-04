@@ -1,23 +1,15 @@
 import P5World from "./P5World";
+import { EntityInfo } from "../../shared/types";
 
 export type Point = {x:number, y:number}
 
-export type P5EntityInfo = {
-    x: number,
-    y: number,
-    type: string,
-    size: {width:number, heigth:number},
-    id: string,
-    vel: Point,
-    accel: Point
-}
 
 export default class P5Entity{
-    constructor(private info:P5EntityInfo, private world:P5World){
+    constructor(private info:EntityInfo, private world:P5World){
         this.update(this.info)
     }
 
-    update(entityInfo: P5EntityInfo){
+    update(entityInfo: EntityInfo){
         this.info = entityInfo
     }
 
@@ -32,7 +24,7 @@ export default class P5Entity{
             this.info.x,
             this.info.y,
             this.info.size.width,
-            this.info.size.heigth
+            this.info.size.height
         )
         p.pop()
     }
