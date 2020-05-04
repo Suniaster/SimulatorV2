@@ -74,7 +74,7 @@ export default class EntityManager{
             for(let anotherEntity of potential){
                 
                 if(entity.collides(anotherEntity)){
-                    entity.handleCollisionWith(anotherEntity, this)
+                    entity.handleCollisionWith(anotherEntity)
                 }
 
             }

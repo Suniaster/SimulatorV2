@@ -16,7 +16,7 @@ export default class Blob extends Entity{
         }
     }
 
-    public handleCollisionWith(entity: Entity, manager: EntityManager){
+    public handleCollisionWith(entity: Entity){
         return;
     }
 
