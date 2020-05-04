@@ -1,6 +1,6 @@
 import EntityManager from "./EntityManager";
 import Blob from "../entities/Blob";
-
+import config from '../config.json'
 
 
 export default class World{
@@ -15,7 +15,7 @@ export default class World{
     }
 
     public start(){
-        this.timeControl = setInterval( ()=>this.passTime(), 1000/30)
+        this.timeControl = setInterval( ()=>this.passTime(), 1000/config.server.fps)
     }
 
     public stop(){
@@ -32,9 +32,7 @@ export default class World{
     }
 
     private passTime(){
-        let movedInfos = this.entities.moveAllEntities();
+        this.entities.moveAllEntities();
         this.entities.performCollisions();
-
-        if(movedInfos.length > 0) this.io.emit('updateObjects', movedInfos);
     }
 }   

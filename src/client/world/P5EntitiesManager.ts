@@ -1,16 +1,6 @@
 import P5Entity from "./P5Entity";
 import P5World from "./P5World";
-
-type Point = {x:number, y:number}
-
-type EntityInfo = {
-    x: number,
-    y: number,
-    type: string,
-    size: {width:number, height:number},
-    id: string
-}
-
+import {P5EntityInfo} from './P5Entity'
 export default class P5EntitiesManager{
     storage: {[id: string]: P5Entity}
 
@@ -18,26 +8,16 @@ export default class P5EntitiesManager{
         this.storage = {}
     }
 
-    public register(objectInfo: EntityInfo){
-        this.storage[objectInfo.id] = new P5Entity({
-            x: objectInfo.x,
-            y: objectInfo.y
-        },
-        {
-            x: objectInfo.size.width,
-            y: objectInfo.size.height
-        },
-            objectInfo.type,
+    public register(objectInfo: P5EntityInfo){
+        this.storage[objectInfo.id] = new P5Entity(
+            objectInfo,
             this.world
         )
     }
 
-    public updateOrCreateEntity(objectInfo: EntityInfo){
+    public updateOrCreateEntity(objectInfo: P5EntityInfo){
         if(this.storage[objectInfo.id]){
-            this.storage[objectInfo.id].updatePos({
-                x: objectInfo.x, 
-                y: objectInfo.y
-            })
+            this.storage[objectInfo.id].update(objectInfo)
         }
         else{
             this.register(objectInfo)

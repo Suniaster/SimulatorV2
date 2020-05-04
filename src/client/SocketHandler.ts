@@ -7,6 +7,7 @@ export default class SocketHandler{
     
     initHandlers(){
         this.socket.on("updateObjects", (infos)=>{
+            console.log(infos)
             infos.forEach((info)=>{
                 this.world.entities.updateOrCreateEntity(info)
             })

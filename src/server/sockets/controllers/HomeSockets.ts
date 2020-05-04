@@ -21,11 +21,17 @@ export default class HomeSockets extends SocketManagerBase{
             socket.on("changeDirBlob", (direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 })=>{
                 let blob = this.world.entities.getEntity(socket.id)
                 blob.setVel({
-                    x: 10*direction.x,
-                    y: 10*direction.y
+                    x: 100*direction.x,
+                    y: 100*direction.y
                 })
+
+                this.io.emit("updateObjects", [blob.getInfo()])
             })
 
+
+            socket.on("disconnect", ()=>{
+                this.world.entities.remove(socket.id)
+            })
         })
         return this
     }

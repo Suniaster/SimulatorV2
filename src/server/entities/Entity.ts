@@ -1,5 +1,7 @@
 import  { Polygon } from 'detect-collisions'
 import EntityManager from '../world/EntityManager';
+import config from '../config.json';
+import { EntityInfo } from '../../shared/types';
 
 export type Point = {
     x: number,
@@ -11,15 +13,6 @@ export type Vector = {
     b: Point
 }
 
-export type EntityInfo = {
-    x: number,
-    y: number,
-    vel: Point,
-    accel: Point,
-    type: string,
-    size: {width:number, height:number},
-    id: string
-}
 
 export default abstract class Entity extends Polygon{
     protected vel: Point;
@@ -67,9 +60,12 @@ export default abstract class Entity extends Polygon{
      */
     public move(): boolean{
         this.updateVel();
-        if(this.vel.x !== 0 ||this.vel.y !== 0){
-            this.x += this.vel.x
-            this.y += this.vel.y
+
+        let dt = 1/config.server.fps
+        let dt_2 = (dt*dt)
+        if(this.vel.x !== 0 || this.vel.y !== 0){
+            this.x += (this.vel.x * dt) + (dt_2*this.accel.x * 0.5)
+            this.y += (this.vel.y * dt)+ (dt_2*this.accel.y * 0.5) 
             return true;
         }
         else{
@@ -92,8 +88,9 @@ export default abstract class Entity extends Polygon{
     }
 
     private updateVel(){
-        this.vel.x += this.accel.x
-        this.vel.y += this.accel.y
+        let dt = 1/ config.server.fps
+        this.vel.x += this.accel.x * dt
+        this.vel.y += this.accel.y * dt
     }
 
     

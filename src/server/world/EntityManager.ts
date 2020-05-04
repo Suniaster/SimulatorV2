@@ -1,5 +1,6 @@
-import Entity, { EntityInfo } from "../entities/Entity";
+import Entity from "../entities/Entity";
 import { Collisions } from "detect-collisions";
+import { EntityInfo } from "../../shared/types";
 
 
 export default class EntityManager{
