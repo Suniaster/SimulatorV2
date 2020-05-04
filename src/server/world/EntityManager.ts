@@ -1,6 +1,7 @@
 import Entity from "../entities/Entity";
 import { Collisions } from "detect-collisions";
 import { EntityInfo } from "../../shared/types";
+import World from "./World";
 
 
 export default class EntityManager{

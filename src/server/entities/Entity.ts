@@ -2,6 +2,7 @@ import  { Polygon } from 'detect-collisions'
 import EntityManager from '../world/EntityManager';
 import config from '../config.json';
 import { EntityInfo } from '../../shared/types';
+import World from '../world/World';
 
 export type Point = {
     x: number,
@@ -37,7 +38,7 @@ export default abstract class Entity extends Polygon{
      * 
      * beforeExecute -> beforeMove -> position changes -> afterMove -> afterExecute
      */
-    constructor(position: Point, private size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
+    constructor(protected world:World, position: Point, private size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
         super(
             position.x, 
             position.y,

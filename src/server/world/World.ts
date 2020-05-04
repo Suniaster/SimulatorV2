@@ -31,7 +31,7 @@ export default class World{
     }
 
     public createBlob(id?:string){
-        let blob = new Blob({x: 100, y:100}, {width: 50, height:50}, id)
+        let blob = new Blob(this, {x: 100, y:100}, {width: 50, height:50}, id)
         this.entities.register(blob);
     }
 

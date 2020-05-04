@@ -1,5 +1,6 @@
 import Entity, { Point } from "./Entity";
 import EntityManager from "../world/EntityManager";
+import World from "../world/World";
 
 
 
@@ -7,8 +8,8 @@ import EntityManager from "../world/EntityManager";
 export default class Blob extends Entity{
     type = "Blob";
 
-    constructor(position:Point, size:{width:number, height:number}, id?:string){
-        super(position, size, id)
+    constructor(world: World,position:Point, size:{width:number, height:number}, id?:string){
+        super(world, position, size, id)
 
         this.movementCallbacks.afterMove = () =>{
             this.scaleSize({scale_x:0.99, scale_y:0.99})
