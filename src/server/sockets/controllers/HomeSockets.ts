@@ -21,10 +21,10 @@ export default class HomeSockets extends SocketManagerBase{
 
             socket.on("changeDirBlob", (direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 })=>{
                 let blob = this.world.entities.getEntity(socket.id) as Blob
-                if(blob){
-                    blob.moveInDirection(direction)
-                    this.io.emit("updateObjects", [blob.getInfo()])
-                }
+                if(!blob)
+                    blob = this.world.createBlob(socket.id) as Blob;
+                blob.moveInDirection(direction)
+                this.io.emit("updateObjects", [blob.getInfo()])
             })
 
 
