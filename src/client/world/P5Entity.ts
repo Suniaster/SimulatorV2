@@ -17,7 +17,7 @@ export default class P5Entity{
         p.push()
         p.fill(255,0,0)
 
-        p.ellipse( 
+        p.rect( 
             this.info.x,
             this.info.y,
             this.info.size.width,
