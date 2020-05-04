@@ -69,6 +69,11 @@ export default abstract class P5Entity{
 
         this.info.x += this.info.vel.x*dt + (this.info.accel.x*dt_2*0.5)
         this.info.y += this.info.vel.y*dt + (this.info.accel.y*dt_2*0.5)
+
+        if(this.info.growthRate !==1 ){
+            this.info.size.width  *= Math.pow(this.info.growthRate, dt)
+            this.info.size.height *= Math.pow(this.info.growthRate, dt)
+        }
     }
 
     private updateVel(){

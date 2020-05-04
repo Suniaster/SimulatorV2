@@ -7,10 +7,17 @@ export default class SocketHandler{
     
     initHandlers(){
         this.socket.on("updateObjects", (infos)=>{
-            console.log(infos)
             infos.forEach((info)=>{
                 this.world.entities.updateOrCreateEntity(info)
             })
+        })
+
+        this.socket.on('objectCreated', info => {
+            this.world.entities.updateOrCreateEntity(info)
+        })
+
+        this.socket.on("objectDestroyed", (id)=>{
+            this.world.entities.delete(id);
         })
     }
 

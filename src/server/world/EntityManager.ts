@@ -24,9 +24,11 @@ export default class EntityManager{
 
     public remove(id:string):Entity{
         let removed = this.entites[id]
-        this.collisionSystem.remove(this.entites[id])
-        delete this.entites[id]
-        this.world.emitEvent("objectDestroyed", id)
+        if(removed){
+            this.collisionSystem.remove(this.entites[id])
+            delete this.entites[id]
+            this.world.emitEvent("objectDestroyed", id)
+        }
         return removed
     }
 
