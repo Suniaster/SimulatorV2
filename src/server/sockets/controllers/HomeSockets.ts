@@ -1,5 +1,6 @@
 import SocketManagerBase from "../SocketManagerBase";
 import World from "../../world/World";
+import Blob from "../../entities/Blob";
 
 export default class HomeSockets extends SocketManagerBase{
 
@@ -19,13 +20,9 @@ export default class HomeSockets extends SocketManagerBase{
             this.world.createBlob(socket.id);
 
             socket.on("changeDirBlob", (direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 })=>{
-                let blob = this.world.entities.getEntity(socket.id)
+                let blob = this.world.entities.getEntity(socket.id) as Blob
                 if(blob){
-                    blob.setVel({
-                        x: 100*direction.x,
-                        y: 100*direction.y
-                    })
-    
+                    blob.moveInDirection(direction)
                     this.io.emit("updateObjects", [blob.getInfo()])
                 }
             })

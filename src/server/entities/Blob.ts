@@ -6,7 +6,6 @@ import World from "../world/World";
 
 
 export default class Blob extends Entity{
-    type = "Blob";
     static minSize = 25;
 
     constructor(world: World,position:Point, size:{width:number, height:number}, id?:string){
@@ -22,6 +21,13 @@ export default class Blob extends Entity{
 
     public handleCollisionWith(entity: Entity){
         return;
+    }
+
+    moveInDirection(direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 }){
+        this.setVel({
+            x: 100*direction.x,
+            y: 100*direction.y
+        })
     }
 
 }
