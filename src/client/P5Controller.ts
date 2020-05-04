@@ -9,7 +9,7 @@ export default class P5Controller{
   imageController: ImageController;
   dt: number;
 
-  constructor(private inputHandler: InputHandler){}
+  constructor(private inputHandler: InputHandler){this.dt=1/60}
 
   sketch = (p: p5) => { 
     // Helpers
@@ -38,7 +38,7 @@ export default class P5Controller{
       p.fill(255);
       p.stroke(0);
       p.text("FPS: " + fps.toFixed(2), 10, p.height - 10);
-      this.dt = 1/p.frameRate()
+      if(fps!==0) this.dt = 1/fps
 
       this.world.entities.drawAll();
     }
