@@ -1,9 +1,6 @@
 import P5World from "./P5World";
 import { EntityInfo } from "../../shared/types";
 
-export type Point = {x:number, y:number}
-
-
 export default class P5Entity{
     constructor(private info:EntityInfo, private world:P5World){
         this.update(this.info)
