@@ -72,7 +72,7 @@ export default abstract class Entity extends Polygon{
         return result;
     }
     
-    public abstract collidesWith(entity: Entity, manager: EntityManager);
+    public abstract handleCollisionWith(entity: Entity, manager: EntityManager);
 
     public getInfo(): EntityInfo{
         return {
