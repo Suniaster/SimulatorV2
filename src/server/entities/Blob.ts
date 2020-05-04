@@ -20,6 +20,13 @@ export default class Blob extends Entity{
     }
 
     public handleCollisionWith(entity: Entity){
+        if(entity.type === "Glob"){
+            this.world.entities.remove(entity.id);
+            this.scaleSize({
+                scale_x: 2,
+                scale_y: 2
+            })
+        }
         return;
     }
 

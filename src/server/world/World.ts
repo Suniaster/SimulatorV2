@@ -1,6 +1,7 @@
 import EntityManager from "./EntityManager";
 import Blob from "../entities/Blob";
 import config from '../config.json'
+import Glob from "../entities/Glob";
 
 
 export default class World{
@@ -12,6 +13,7 @@ export default class World{
 
     public setup(){
         this.entities = new EntityManager(this);
+        this.entities.register(new Glob(this, {x: 600, y:600}))
     }
 
     public start(){
@@ -31,7 +33,7 @@ export default class World{
     }
 
     public createBlob(id?:string){
-        let blob = new Blob(this, {x: 100, y:100}, {width: 50, height:50}, id)
+        let blob = new Blob(this, {x: 100, y:100}, {width: 100, height:100}, id)
         return this.entities.register(blob);
     }
 

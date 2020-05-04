@@ -63,7 +63,7 @@ export default abstract class Entity extends Polygon{
             afterExecute: ()=>{}
         }
         this.growthRate = 1;
-        this.type = this.constructor.name
+        this.type = this.constructor.name;
     }
 
     static makeid(length) {
