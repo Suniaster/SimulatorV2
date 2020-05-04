@@ -18,6 +18,7 @@ export type Vector = {
 export default abstract class Entity extends Polygon{
     protected vel: Point;
     protected accel: Point;
+    protected growthRate: number;
     protected movementCallbacks:{
         beforeMove:()=>void, 
         afterMove:()=>void,
@@ -38,7 +39,7 @@ export default abstract class Entity extends Polygon{
      * 
      * beforeExecute -> beforeMove -> position changes -> afterMove -> afterExecute
      */
-    constructor(protected world:World, position: Point, private size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
+    constructor(protected world:World, position: Point, protected size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
         super(
             position.x, 
             position.y,
@@ -61,6 +62,7 @@ export default abstract class Entity extends Polygon{
             beforeExectute: ()=>{},
             afterExecute: ()=>{}
         }
+        this.growthRate = 1
     }
 
     static makeid(length) {
@@ -83,7 +85,8 @@ export default abstract class Entity extends Polygon{
             accel: this.accel,
             type: this.type,
             size: this.size,
-            id: this.id
+            id: this.id,
+            growthRate: this.growthRate
         }
     }
 
@@ -96,6 +99,11 @@ export default abstract class Entity extends Polygon{
 
         let dt = 1/config.server.fps
         let dt_2 = (dt*dt)
+
+        if(this.growthRate !== 1){
+            this.scaleSize({scale_x: Math.pow(this.growthRate, dt), scale_y: Math.pow(this.growthRate, dt)})
+        }
+
         if(this.vel.x !== 0 || this.vel.y !== 0){
             this.movementCallbacks.beforeMove();
             this.x += (this.vel.x * dt) + (dt_2*this.accel.x * 0.5)

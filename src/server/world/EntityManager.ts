@@ -8,8 +8,7 @@ export default class EntityManager{
     private entites: {[id: string]: Entity}
     private collisionSystem: Collisions
 
-
-    constructor(){
+    constructor(public world : World){
         this.entites = {}
         this.collisionSystem = new Collisions();
     }
@@ -19,6 +18,7 @@ export default class EntityManager{
         let id = newEntity.id
         this.entites[id] = newEntity
         this.collisionSystem.insert(this.entites[id])
+        this.world.emitEvent("objectCreated", newEntity.getInfo())
         return newEntity
     }
 
@@ -26,6 +26,7 @@ export default class EntityManager{
         let removed = this.entites[id]
         this.collisionSystem.remove(this.entites[id])
         delete this.entites[id]
+        this.world.emitEvent("objectDestroyed", id)
         return removed
     }
 

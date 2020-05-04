@@ -7,12 +7,16 @@ import World from "../world/World";
 
 export default class Blob extends Entity{
     type = "Blob";
+    static minSize = 25;
 
     constructor(world: World,position:Point, size:{width:number, height:number}, id?:string){
         super(world, position, size, id)
+        this.growthRate = 0.9;
 
-        this.movementCallbacks.afterMove = () =>{
-            this.scaleSize({scale_x:0.99, scale_y:0.99})
+        this.movementCallbacks.afterExecute = () =>{
+            if(this.size.width < Blob.minSize){
+                this.world.entities.remove(this.id)
+            }
         }
     }
 

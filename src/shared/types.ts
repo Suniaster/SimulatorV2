@@ -6,7 +6,8 @@ export type EntityInfo = {
     accel: Point,
     type: string,
     size: {width:number, height:number},
-    id: string
+    id: string,
+    growthRate: number
 }
 
 export type Point = {
