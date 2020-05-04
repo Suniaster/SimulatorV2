@@ -26,6 +26,10 @@ export default class World{
         this.entities.reset();
     }
 
+    public emitEvent(eventName:string, ...args){
+        this.io.emit(eventName, ...args);
+    }
+
     public createBlob(id?:string){
         let blob = new Blob({x: 100, y:100}, {width: 50, height:50}, id)
         this.entities.register(blob);
