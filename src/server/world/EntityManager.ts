@@ -71,7 +71,11 @@ export default class EntityManager{
         Object.values(this.entites).forEach( entity =>{
             let potential = entity.potentials() as Entity[]
             for(let anotherEntity of potential){
-                entity.collidesWith(anotherEntity, this)
+                
+                if(entity.collides(anotherEntity)){
+                    entity.collidesWith(anotherEntity, this)
+                }
+
             }
         })
     }

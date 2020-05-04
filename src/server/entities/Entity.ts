@@ -37,8 +37,15 @@ export default abstract class Entity extends Polygon{
      * 
      * beforeExecute -> beforeMove -> position changes -> afterMove -> afterExecute
      */
-    constructor(position: Point, public size?: {width:number, height:number}, points?:number[][], public readonly id = Entity.makeid(6)){
-        super(position.x, position.y, points)
+    constructor(position: Point, private size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
+        super(
+            position.x, 
+            position.y,
+            [[0, 0],
+            [size.width, 0],
+            [size.width, size.height],
+            [0, size.height]]
+        )
         this.vel = {
             x: 0,
             y: 0
@@ -114,6 +121,14 @@ export default abstract class Entity extends Polygon{
     public setVelByOffSet(offset:Point){
         this.vel.x += offset.x;
         this.vel.y += offset.y;
+    }
+
+    protected scaleSize({scale_x=1, scale_y=1}){
+        this.scale_x *= scale_x
+        this.scale_y *= scale_y
+
+        this.size.width *= scale_x
+        this.size.height *= scale_y
     }
 
     private updateVel(){

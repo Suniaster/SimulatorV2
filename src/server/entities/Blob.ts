@@ -8,16 +8,11 @@ export default class Blob extends Entity{
     type = "Blob";
 
     constructor(position:Point, size:{width:number, height:number}, id?:string){
-        super(
-            position, 
-            size, 
-            [[position.x            , position.y],
-            [position.x + size.width, position.y],
-            [position.x + size.width, position.y + size.height],
-            [position.x             , position.y + size.height]
-            ],
-            id
-        )
+        super(position, size, id)
+
+        this.movementCallbacks.afterMove = () =>{
+            this.scaleSize({scale_x:0.99, scale_y:0.99})
+        }
     }
 
     public collidesWith(entity: Entity, manager: EntityManager){
