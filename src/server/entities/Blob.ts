@@ -8,9 +8,13 @@ import World from "../world/World";
 export default class Blob extends Entity{
     static minSize = 25;
     static maxVel = 100;
-    constructor(world: World,position:Point, size:{width:number, height:number}, id?:string){
-        super(world, position, size, id)
-        this.growthRate = 0.9;
+    constructor(world: World,position:Point, id?:string){
+        super(world, position,  {
+            width: 100,
+            height: 100
+        }, id)
+        
+        this.growthRate = 0.95;
 
         this.movementCallbacks.afterExecute = () =>{
             if(this.size.width < Blob.minSize){
@@ -23,8 +27,8 @@ export default class Blob extends Entity{
         if(entity.type === "Glob"){
             this.world.entities.remove(entity.id);
             this.changeSizeU({
-                width: this.size.width + Blob.minSize,
-                height: this.size.height + Blob.minSize
+                width: this.size.width + 15,
+                height: this.size.height + 15
             })
         }
         return;

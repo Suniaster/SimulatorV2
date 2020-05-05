@@ -7,13 +7,16 @@ import Glob from "../entities/Glob";
 export default class World{
     public entities: EntityManager
     private timeControl: NodeJS.Timeout
-
+    static size = {width: 1200, height: 800}
     constructor(private io: SocketIO.Server){
+        this.entities = new EntityManager(this);
     }
 
     public setup(){
-        this.entities = new EntityManager(this);
-        this.entities.register(new Glob(this, {x: 600, y:600}))
+        for(let i=0;i<50;i+=1){
+            let pos = World.generateRandomCoord()
+            this.entities.register(new Glob(this, {x: pos.x, y: pos.y}))
+        }
     }
 
     public start(){
@@ -33,12 +36,20 @@ export default class World{
     }
 
     public createBlob(id?:string){
-        let blob = new Blob(this, {x: 100, y:100}, {width: 100, height:100}, id)
+        let spawnPoint = World.generateRandomCoord()
+        let blob = new Blob(this, {x: spawnPoint.x, y:spawnPoint.y}, id)
         return this.entities.register(blob);
     }
 
     private passTime(){
         this.entities.moveAllEntities();
         this.entities.performCollisions();
+    }
+
+    static generateRandomCoord(){
+        return {
+            x: Math.floor(Math.random()*World.size.width),
+            y: Math.floor(Math.random()*World.size.height)
+        }
     }
 }   
