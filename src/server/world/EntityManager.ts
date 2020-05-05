@@ -19,9 +19,15 @@ export default class EntityManager{
     /********** *********/
     public register(newEntity: Entity):Entity{
         let id = newEntity.id
-        if(!this.entites[id] && this.count < this.maxEntities){
+
+        if(this.count >= this.maxEntities){
+            console.log("Max entity count")
+            return undefined
+        }
+
+        if(!this.entites[id]){
             this.entites[id] = newEntity
-            this.collisionSystem.insert(this.entites[id])
+            let a = this.collisionSystem.insert(this.entites[id])
             this.world.emitEvent("objectCreated", newEntity.getInfo())
             this.count++;
             return newEntity
