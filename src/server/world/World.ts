@@ -18,7 +18,7 @@ export default class World{
     public setup(){
         for(let i=0;i<50;i+=1){
             let pos = World.generateRandomCoord()
-            this.entities.register(new Glob(this, {x: pos.x, y: pos.y}))
+            new Glob(this, {x: pos.x, y: pos.y}).getAlive()
         }
     }
 
@@ -41,7 +41,8 @@ export default class World{
     public createBlob(id?:string){
         let spawnPoint = World.generateRandomCoord()
         let blob = new Blob(this, {x: spawnPoint.x, y:spawnPoint.y}, id)
-        return this.entities.register(blob);
+        blob.getAlive()
+        return blob;
     }
 
     private passTime = () => {
@@ -63,7 +64,7 @@ export default class World{
     private beforeTimePasses(){
         if(this.time % 20 === 0){
             let pos = World.generateRandomCoord()
-            this.entities.register(new Glob(this, {x: pos.x, y: pos.y}))
+            new Glob(this, {x: pos.x, y: pos.y}).getAlive()
         }
     }
 

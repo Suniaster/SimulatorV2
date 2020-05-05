@@ -137,6 +137,23 @@ export default abstract class Entity extends Polygon{
         this.updateSelfWorld();
     }
 
+    public getAlive(){
+        let entered = this.world.entities.register(this);
+        if(entered){
+            this.world.entities.collisionSystem.insert(this)
+        }
+    }
+
+    public kill(){
+        let removed = this.world
+            .entities
+            .remove(this) 
+        if(removed){
+            // removes from collision system
+            this.remove() 
+        }
+    }
+    
     protected scaleSize({scale_x=1, scale_y=1}){
         this.scale_x *= scale_x
         this.scale_y *= scale_y

@@ -6,7 +6,7 @@ import World from "./World";
 
 export default class EntityManager{
     private entites: {[id: string]: Entity}
-    private collisionSystem: Collisions
+    public collisionSystem: Collisions
     public count: number
     public maxEntities;
     constructor(public world : World){
@@ -16,38 +16,6 @@ export default class EntityManager{
         this.collisionSystem = new Collisions();
     }
 
-    /********** *********/
-    public register(newEntity: Entity):Entity{
-        let id = newEntity.id
-
-        if(this.count >= this.maxEntities){
-            console.log("Max entity count")
-            return undefined
-        }
-
-        if(!this.entites[id]){
-            this.entites[id] = newEntity
-            let a = this.collisionSystem.insert(this.entites[id])
-            this.world.emitEvent("objectCreated", newEntity.getInfo())
-            this.count++;
-            return newEntity
-        }
-        else {
-            console.log("Negated entity criation with duplicated id")
-            return undefined;
-        }
-    }
-
-    public remove(id:string):Entity{
-        let removed = this.entites[id]
-        if(removed){
-            this.collisionSystem.remove(this.entites[id])
-            this.count--;
-            delete this.entites[id]
-            this.world.emitEvent("objectDestroyed", id)
-        }
-        return removed
-    }
 
     public reset(){
         this.count = 0;
@@ -104,4 +72,48 @@ export default class EntityManager{
             }
         })
     }
+
+    /*** pseudo public ***/
+
+    /**
+     * 
+     *  This function does not insert enitity on collision system
+     *  entity.getAlive() should be used instead
+     */
+    public register(newEntity: Entity):Entity{
+        let id = newEntity.id
+
+        if(this.count >= this.maxEntities){
+            console.log("Max entity count")
+            return undefined
+        }
+
+        if(!this.entites[id]){
+            this.entites[id] = newEntity
+            this.world.emitEvent("objectCreated", newEntity.getInfo())
+            this.count++;
+            return newEntity
+        }
+        else {
+            console.log("Negated entity criation with duplicated id")
+            return undefined;
+        }
+    }
+
+    /**
+     * 
+     *  This function does remove enitity on collision system
+     *  entity.kill() should be used instead
+     */
+    public remove(entity:Entity):Entity{
+        let id = entity.id
+        let removed = this.entites[id]
+        if(removed){
+            this.count--;
+            delete this.entites[id]
+            this.world.emitEvent("objectDestroyed", id)
+        }
+        return removed
+    }
+
 }

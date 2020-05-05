@@ -18,14 +18,14 @@ export default class Blob extends Entity{
 
         this.movementCallbacks.afterExecute = () =>{
             if(this.size.width < Blob.minSize){
-                this.world.entities.remove(this.id)
+                this.kill();
             }
         }
     }
 
     public handleCollisionWith(entity: Entity){
         if(entity.type === "Glob"){
-            this.world.entities.remove(entity.id);
+            entity.kill();
             this.changeSizeU({
                 width: this.size.width + 15,
                 height: this.size.height + 15

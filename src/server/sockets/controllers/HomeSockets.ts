@@ -28,7 +28,8 @@ export default class HomeSockets extends SocketManagerBase{
 
 
             socket.on("disconnect", ()=>{
-                this.world.entities.remove(socket.id)
+                let blob = this.world.entities.getEntity(socket.id)
+                if(blob) blob.kill();
             })
         })
         return this
