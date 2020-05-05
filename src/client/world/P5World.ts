@@ -27,4 +27,12 @@ export default class P5World{
             y: 0
         }
     }
+
+    getScale():number{
+        let ent = this.entities.get(this.referenceEnitityId)
+        if(ent){ 
+            return 100/ent.info.size.width
+        }
+        return 1;
+    }
 }
