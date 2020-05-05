@@ -24,7 +24,6 @@ export default class HomeSockets extends SocketManagerBase{
                 if(!blob)
                     blob = this.world.createBlob(socket.id) as Blob;
                 blob.moveInDirection(direction)
-                this.io.emit("updateObjects", [blob.getInfo()])
             })
 
 

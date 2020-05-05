@@ -7,7 +7,7 @@ import World from "../world/World";
 
 export default class Blob extends Entity{
     static minSize = 25;
-
+    static maxVel = 100;
     constructor(world: World,position:Point, size:{width:number, height:number}, id?:string){
         super(world, position, size, id)
         this.growthRate = 0.9;
@@ -26,14 +26,15 @@ export default class Blob extends Entity{
                 scale_x: 2,
                 scale_y: 2
             })
+            this.updateSelfWorld();
         }
         return;
     }
 
     moveInDirection(direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 }){
-        this.setVel({
-            x: 100*direction.x,
-            y: 100*direction.y
+        this.changeVel({
+            x: Blob.maxVel*direction.x,
+            y: Blob.maxVel*direction.y
         })
     }
 

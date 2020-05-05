@@ -119,18 +119,9 @@ export default abstract class Entity extends Polygon{
         }        
     }
 
-    public moveByOffSet(offSet:Point){
-        this.x += offSet.x;
-        this.y += offSet.y;
-    }
-
-    public setVel(newVel:Point){
-        this.vel = newVel;
-    }
-
-    public setVelByOffSet(offset:Point){
-        this.vel.x += offset.x;
-        this.vel.y += offset.y;
+    public changeVel(newVel: Point){
+        this.vel = newVel
+        this.updateSelfWorld();
     }
 
     protected scaleSize({scale_x=1, scale_y=1}){
@@ -141,11 +132,13 @@ export default abstract class Entity extends Polygon{
         this.size.height *= scale_y
     }
 
+    protected updateSelfWorld(){
+        this.world.emitEvent("updateObjects", [this.getInfo()])
+    }
+
     private updateVel(){
         let dt = 1/ config.server.fps
         this.vel.x += this.accel.x * dt
         this.vel.y += this.accel.y * dt
     }
-
-    
 }
