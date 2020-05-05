@@ -90,7 +90,10 @@ export default class EntityManager{
 
     public performCollisions(){
         this.collisionSystem.update();
-        Object.values(this.entites).forEach( entity =>{
+        Object.keys(this.entites).forEach( key =>{
+            let entity = this.entites[key]
+            if(!entity) return;
+
             let potential = entity.potentials() as Entity[]
             for(let anotherEntity of potential){
                 

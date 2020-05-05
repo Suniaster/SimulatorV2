@@ -61,7 +61,10 @@ export default class World{
 
 
     private beforeTimePasses(){
-
+        if(this.time % 20 === 0){
+            let pos = World.generateRandomCoord()
+            this.entities.register(new Glob(this, {x: pos.x, y: pos.y}))
+        }
     }
 
     private afterTimePasses(){
