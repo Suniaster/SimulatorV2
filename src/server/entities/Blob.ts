@@ -22,17 +22,16 @@ export default class Blob extends Entity{
     public handleCollisionWith(entity: Entity){
         if(entity.type === "Glob"){
             this.world.entities.remove(entity.id);
-            this.scaleSize({
-                scale_x: 2,
-                scale_y: 2
+            this.changeSizeU({
+                width: this.size.width + Blob.minSize,
+                height: this.size.height + Blob.minSize
             })
-            this.updateSelfWorld();
         }
         return;
     }
 
     moveInDirection(direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 }){
-        this.changeVel({
+        this.changeVelU({
             x: Blob.maxVel*direction.x,
             y: Blob.maxVel*direction.y
         })

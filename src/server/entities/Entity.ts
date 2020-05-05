@@ -27,6 +27,7 @@ export default abstract class Entity extends Polygon{
     }
     public readonly type: string;
     
+    private originalSize: {width:number, height:number};
     /**
      * ### Movement
      * 
@@ -64,6 +65,7 @@ export default abstract class Entity extends Polygon{
         }
         this.growthRate = 1;
         this.type = this.constructor.name;
+        this.originalSize = this.size
     }
 
     static makeid(length) {
@@ -119,8 +121,19 @@ export default abstract class Entity extends Polygon{
         }        
     }
 
-    public changeVel(newVel: Point){
+    public changeVelU(newVel: Point){
         this.vel = newVel
+        this.updateSelfWorld();
+    }
+
+    public changeSizeU(newSize: {width:number, height:number}){
+        let new_scale_x = newSize.width/this.originalSize.width;
+        let new_scale_y = newSize.height/this.originalSize.height;
+
+        this.scale_x = new_scale_x;
+        this.scale_y = new_scale_y;
+
+        this.size = newSize;
         this.updateSelfWorld();
     }
 
