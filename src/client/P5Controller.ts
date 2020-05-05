@@ -17,7 +17,7 @@ export default class P5Controller{
     this.imageController = new ImageController(p);
     this.p = p
     this.world = new P5World(this)
-
+    
     // P5 Functions
     p.preload = () => {
       this.imageController.registerImage('boss', 'boss_2.png')
@@ -32,12 +32,11 @@ export default class P5Controller{
     }
   
     p.draw = () => {
-      p.background(255);
-
+      p.background(220);
+      let translation = this.world.getTranslation()
+      p.translate(translation.x, translation.y);
+  
       let fps = p.frameRate();
-      p.fill(255);
-      p.stroke(0);
-      p.text("FPS: " + fps.toFixed(2), 10, p.height - 10);
       if(fps!==0) this.dt = 1/fps
 
       this.world.entities.drawAll();

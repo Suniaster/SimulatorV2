@@ -6,6 +6,10 @@ export default class SocketHandler{
     }
     
     initHandlers(){
+        this.socket.on("connect", ()=>{
+            this.world.referenceEnitityId = this.socket.id
+        })
+
         this.socket.on("updateObjects", (infos)=>{
             infos.forEach((info)=>{
                 this.world.entities.updateOrCreateEntity(info)

@@ -12,7 +12,7 @@ export type styleConfig = {
 
 export default abstract class P5Entity{
     private drawObject = () => {};
-    constructor(private info:EntityInfo, protected style: styleConfig, private world:P5World){
+    constructor(public info:EntityInfo, protected style: styleConfig, private world:P5World){
         if(this.style.image){
             this.drawObject = this.drawnImage;
         }

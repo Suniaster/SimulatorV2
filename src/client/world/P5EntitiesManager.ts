@@ -40,6 +40,10 @@ export default class P5EntitiesManager{
         delete this.storage[id]
     }
 
+    public get(id){
+        return this.storage[id]
+    }
+
     public drawAll(){
         Object.values(this.storage).forEach( entity => {
             entity.draw();
