@@ -7,25 +7,36 @@ import World from "./World";
 export default class EntityManager{
     private entites: {[id: string]: Entity}
     private collisionSystem: Collisions
-
+    public count: number
+    public maxEntities;
     constructor(public world : World){
         this.entites = {}
+        this.count = 0;
+        this.maxEntities = 100;
         this.collisionSystem = new Collisions();
     }
 
     /********** *********/
     public register(newEntity: Entity):Entity{
         let id = newEntity.id
-        this.entites[id] = newEntity
-        this.collisionSystem.insert(this.entites[id])
-        this.world.emitEvent("objectCreated", newEntity.getInfo())
-        return newEntity
+        if(!this.entites[id] && this.count < this.maxEntities){
+            this.entites[id] = newEntity
+            this.collisionSystem.insert(this.entites[id])
+            this.world.emitEvent("objectCreated", newEntity.getInfo())
+            this.count++;
+            return newEntity
+        }
+        else {
+            console.log("Negated entity criation with duplicated id")
+            return undefined;
+        }
     }
 
     public remove(id:string):Entity{
         let removed = this.entites[id]
         if(removed){
             this.collisionSystem.remove(this.entites[id])
+            this.count--;
             delete this.entites[id]
             this.world.emitEvent("objectDestroyed", id)
         }
@@ -33,6 +44,7 @@ export default class EntityManager{
     }
 
     public reset(){
+        this.count = 0;
         this.entites = {}
         this.collisionSystem = new Collisions();
     }

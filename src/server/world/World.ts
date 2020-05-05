@@ -8,8 +8,11 @@ export default class World{
     public entities: EntityManager
     private timeControl: NodeJS.Timeout
     static size = {width: 1200, height: 800}
+    public time;
+
     constructor(private io: SocketIO.Server){
         this.entities = new EntityManager(this);
+        this.time = 0;
     }
 
     public setup(){
@@ -20,7 +23,7 @@ export default class World{
     }
 
     public start(){
-        this.timeControl = setInterval( ()=>this.passTime(), 1000/config.server.fps)
+        this.timeControl = setInterval(this.passTime, 1000/config.server.fps)
     }
 
     public stop(){
@@ -41,9 +44,12 @@ export default class World{
         return this.entities.register(blob);
     }
 
-    private passTime(){
+    private passTime = () => {
+        this.beforeTimePasses();
         this.entities.moveAllEntities();
         this.entities.performCollisions();
+        this.time++;
+        this.afterTimePasses();
     }
 
     static generateRandomCoord(){
@@ -51,5 +57,14 @@ export default class World{
             x: Math.floor(Math.random()*World.size.width),
             y: Math.floor(Math.random()*World.size.height)
         }
+    }
+
+
+    private beforeTimePasses(){
+
+    }
+
+    private afterTimePasses(){
+
     }
 }   
