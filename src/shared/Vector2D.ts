@@ -11,6 +11,16 @@ export default class Vector2D{
         return new Vector2D(v1.x-v2.x, v1.y-v2.y)
     }
 
+    static map(value:number, min_source:number, max_source:number, min_dest=0, max_dest=1){
+        if(min_source === max_source) throw new Error("range source values cant be 0")
+        value -= min_source
+        value /= (max_source - min_source)
+        
+        value *= (max_dest - min_dest)
+        value += min_dest
+        return value
+    }
+
     static random(mag = 1){
         let newVector = new Vector2D(mag, 0);
         newVector.rotate(Math.random()*Math.PI*2)
