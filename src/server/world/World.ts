@@ -47,7 +47,7 @@ export default class World{
 
     private passTime = () => {
         this.beforeTimePasses();
-        this.entities.moveAllEntities();
+        this.entities.updateAllEntities();
         this.entities.performCollisions();
         this.time++;
         this.afterTimePasses();

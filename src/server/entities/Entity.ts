@@ -96,7 +96,7 @@ export default abstract class Entity extends Polygon{
     /**
      *  return a boolean indicating if entity has moved
      */
-    public move(): boolean{
+    public update(): boolean{
         this.movementCallbacks.beforeExectute();
         this.updateVel();
 

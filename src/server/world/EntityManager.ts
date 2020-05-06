@@ -47,9 +47,9 @@ export default class EntityManager{
     /**
      * Move entities and return list of moved entities
      */
-    public moveAllEntities():EntityInfo[]{
+    public updateAllEntities():EntityInfo[]{
         return Object.values(this.entites).reduce((acc, entity)=>{
-            if(entity.move()){
+            if(entity.update()){
                 acc.push(entity.getInfo());
             }
             return acc;
