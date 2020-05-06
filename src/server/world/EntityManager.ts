@@ -111,9 +111,9 @@ export default class EntityManager{
         let removed = this.entites[id]
         if(removed){
             this.count--;
-            delete this.entites[id]
             if(this.entites[id].emitWorldEvents)
                 this.world.emitEvent("objectDestroyed", id)
+            delete this.entites[id]
         }
         return removed
     }

@@ -28,10 +28,12 @@ export default abstract class Entity extends Polygon{
         super(
             position.x, 
             position.y,
-            [[0, 0],
-            [size.width, 0],
-            [size.width, size.height],
-            [0, size.height]]
+            [
+            [-size.width/2, -size.height/2],
+            [ size.width/2, -size.height/2],
+            [ size.width/2,  size.height/2],
+            [-size.width/2,  size.height/2]
+            ]
         )
         this.vel = new Vector2D(0,0);
         this.accel = new Vector2D(0,0);

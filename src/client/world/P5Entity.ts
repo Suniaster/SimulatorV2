@@ -33,6 +33,7 @@ export default abstract class P5Entity{
     private drawnRect(){
         let p = this.world.p
         p.push()
+        p.rectMode(p.CENTER)
         p.fill(
             this.style.color.r,
             this.style.color.g,
