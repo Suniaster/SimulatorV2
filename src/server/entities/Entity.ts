@@ -145,9 +145,11 @@ export default abstract class Entity extends Polygon{
 
     private updateVel(){
         let dt = 1/ config.server.fps
-        this.vel.x += this.accel.x * dt
-        this.vel.y += this.accel.y * dt
-        this.vel.limit(this.maxVel);
+        if(this.accel.x !== 0 || this.accel.y !== 0 ){
+            this.vel.x += this.accel.x * dt
+            this.vel.y += this.accel.y * dt
+            this.vel.limit(this.maxVel);
+        }
     }
 
     protected defaultGetAlive(){
