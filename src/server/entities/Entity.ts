@@ -22,8 +22,9 @@ export default abstract class Entity extends Polygon{
     protected growthRate: number;
     public readonly type: string;    
     private originalSize: {width:number, height:number};
+    public emitWorldEvents: boolean
 
-    constructor(protected world:World, position: Point, protected size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
+    constructor(public world:World, position: Point, protected size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
         super(
             position.x, 
             position.y,
@@ -37,6 +38,7 @@ export default abstract class Entity extends Polygon{
         this.growthRate = 1;
         this.type = this.constructor.name;
         this.originalSize = this.size
+        this.emitWorldEvents = true
     }
 
     static makeid(length) {
@@ -139,7 +141,8 @@ export default abstract class Entity extends Polygon{
     }
 
     public updateSelfWorld(){
-        this.world.emitEvent("updateObjects", [this.getInfo()])
+        if(this.emitWorldEvents)
+            this.world.emitEvent("updateObjects", [this.getInfo()])
     }
 
     private updateVel(){

@@ -90,7 +90,8 @@ export default class EntityManager{
 
         if(!this.entites[id]){
             this.entites[id] = newEntity
-            this.world.emitEvent("objectCreated", newEntity.getInfo())
+            if(this.entites[id].emitWorldEvents)
+                this.world.emitEvent("objectCreated", newEntity.getInfo())
             this.count++;
             return newEntity
         }
@@ -111,7 +112,8 @@ export default class EntityManager{
         if(removed){
             this.count--;
             delete this.entites[id]
-            this.world.emitEvent("objectDestroyed", id)
+            if(this.entites[id].emitWorldEvents)
+                this.world.emitEvent("objectDestroyed", id)
         }
         return removed
     }
