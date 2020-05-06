@@ -20,6 +20,7 @@ export default abstract class Entity extends Polygon{
     protected vel: Vector2D;
     protected accel: Vector2D;
     protected growthRate: number;
+    protected maxVel: number;
     public readonly type: string;    
     private originalSize: {width:number, height:number};
     public emitWorldEvents: boolean
@@ -36,6 +37,7 @@ export default abstract class Entity extends Polygon{
             ]
         )
         this.vel = new Vector2D(0,0);
+        this.maxVel = 300;
         this.accel = new Vector2D(0,0);
         this.growthRate = 1;
         this.type = this.constructor.name;
@@ -145,6 +147,7 @@ export default abstract class Entity extends Polygon{
         let dt = 1/ config.server.fps
         this.vel.x += this.accel.x * dt
         this.vel.y += this.accel.y * dt
+        this.vel.limit(this.maxVel);
     }
 
     protected defaultGetAlive(){
