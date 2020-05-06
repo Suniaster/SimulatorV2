@@ -3,6 +3,7 @@ import EntityManager from '../world/EntityManager';
 import config from '../config.json';
 import { EntityInfo } from '../../shared/types';
 import World from '../world/World';
+import Vector2D from '../../shared/Vector2D';
 
 export type Point = {
     x: number,
@@ -16,8 +17,8 @@ export type Vector = {
 
 
 export default abstract class Entity extends Polygon{
-    protected vel: Point;
-    protected accel: Point;
+    protected vel: Vector2D;
+    protected accel: Vector2D;
     protected growthRate: number;
     public readonly type: string;    
     private originalSize: {width:number, height:number};
@@ -31,14 +32,8 @@ export default abstract class Entity extends Polygon{
             [size.width, size.height],
             [0, size.height]]
         )
-        this.vel = {
-            x: 0,
-            y: 0
-        }
-        this.accel = {
-            x: 0,
-            y: 0
-        }
+        this.vel = new Vector2D(0,0);
+        this.accel = new Vector2D(0,0);
         this.growthRate = 1;
         this.type = this.constructor.name;
         this.originalSize = this.size
@@ -102,7 +97,8 @@ export default abstract class Entity extends Polygon{
     }
 
     public changeVelU(newVel: Point){
-        this.vel = newVel
+        this.vel.x = newVel.x
+        this.vel.y = newVel.y
         this.updateSelfWorld();
     }
 
@@ -142,7 +138,7 @@ export default abstract class Entity extends Polygon{
         this.size.height *= scale_y
     }
 
-    protected updateSelfWorld(){
+    public updateSelfWorld(){
         this.world.emitEvent("updateObjects", [this.getInfo()])
     }
 

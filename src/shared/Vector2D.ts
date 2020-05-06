@@ -17,6 +17,11 @@ export default class Vector2D{
         return newVector;
     }
 
+    static mult(vector: Vector2D, scalar){
+        let newVector = new Vector2D(vector.x, vector.y);
+        return newVector.mult(scalar);
+    }
+
     public add(vector: Vector2D){
         this.x += vector.x;
         this.y += vector.y;        
@@ -35,11 +40,17 @@ export default class Vector2D{
         )
     }
 
+    public mult(scalar:number){
+        this.setMag(this.mag()*scalar);
+        return this;
+    }
+
     public setMag(mag:number){
         let angle = this.heading();
 
         this.x = Math.cos(angle) * mag;
         this.y = Math.sin(angle) * mag;
+        return this;
     }
 
     public heading(){
@@ -60,6 +71,7 @@ export default class Vector2D{
         if( this.mag() > max ){
             this.setMag(max);
         }
+        return this;
     }
 
     public rotate(angle:number){
@@ -69,6 +81,7 @@ export default class Vector2D{
 
         this.x = Math.cos(newAngle) * mag;
         this.y = Math.sin(newAngle) * mag; 
+        return this;
     }
 
 }
