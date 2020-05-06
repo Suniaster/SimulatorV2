@@ -12,7 +12,7 @@ export default class EntityManager{
     constructor(public world : World){
         this.entites = {}
         this.count = 0;
-        this.maxEntities = 100;
+        this.maxEntities = 500;
         this.collisionSystem = new Collisions();
     }
 
@@ -30,7 +30,8 @@ export default class EntityManager{
 
     public getEntitiesInfo():EntityInfo[]{
         return Object.values(this.entites).reduce((acc, entity)=>{
-            acc.push(entity.getInfo())
+            if(entity.emitWorldEvents)
+                acc.push(entity.getInfo())
             return acc
         }, []);
     }
