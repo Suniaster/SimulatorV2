@@ -118,22 +118,16 @@ export default abstract class Entity extends Polygon{
     }
 
     public getAlive(){
-        let entered = this.world.entities.register(this);
-        if(entered){
-            this.world.entities.collisionSystem.insert(this)
-        }
+        this.defaultGetAlive();
     }
 
     public kill(){
-        let removed = this.world
-            .entities
-            .remove(this) 
-        if(removed){
-            // removes from collision system
-            this.remove() 
-        }
+        this.defaultKill();
     }
     
+    public getPos(){
+        return new Vector2D(this.x, this.y)
+    }
     protected scaleSize({scale_x=1, scale_y=1}){
         this.scale_x *= scale_x
         this.scale_y *= scale_y
@@ -152,4 +146,22 @@ export default abstract class Entity extends Polygon{
         this.vel.x += this.accel.x * dt
         this.vel.y += this.accel.y * dt
     }
+
+    protected defaultGetAlive(){
+        let entered = this.world.entities.register(this);
+        if(entered){
+            this.world.entities.collisionSystem.insert(this)
+        }
+    }
+
+    protected defaultKill(){
+        let removed = this.world
+            .entities
+            .remove(this) 
+        if(removed){
+            // removes from collision system
+            this.remove() 
+        }
+    }
+
 }
