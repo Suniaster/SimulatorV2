@@ -19,27 +19,9 @@ export default abstract class Entity extends Polygon{
     protected vel: Point;
     protected accel: Point;
     protected growthRate: number;
-    protected movementCallbacks:{
-        beforeMove:()=>void, 
-        afterMove:()=>void,
-        beforeExectute:()=>void,
-        afterExecute:()=>void
-    }
-    public readonly type: string;
-    
+    public readonly type: string;    
     private originalSize: {width:number, height:number};
-    /**
-     * ### Movement
-     * 
-     * @field movementCallbacks.beforeMove its called only when object moves
-     * @field movementCallbacks.afterMove  its called after object moves
-     * @field movementCallbacks.beforeExectute its called always before function starts
-     * @field movementCallbacks.afterExecute  its called always right before function returns
-     * 
-     * Order of execution:
-     * 
-     * beforeExecute -> beforeMove -> position changes -> afterMove -> afterExecute
-     */
+
     constructor(protected world:World, position: Point, protected size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
         super(
             position.x, 
@@ -57,12 +39,6 @@ export default abstract class Entity extends Polygon{
             x: 0,
             y: 0
         }
-        this.movementCallbacks = {
-            beforeMove: ()=>{}, 
-            afterMove: ()=>{},
-            beforeExectute: ()=>{},
-            afterExecute: ()=>{}
-        }
         this.growthRate = 1;
         this.type = this.constructor.name;
         this.originalSize = this.size
@@ -79,6 +55,10 @@ export default abstract class Entity extends Polygon{
     }
     
     public abstract handleCollisionWith(entity: Entity);
+    protected beforeMove(){}
+    protected afterMove(){}
+    protected beforeUpdate(){}
+    protected afterUpdate(){}
 
     public getInfo(): EntityInfo{
         return {
@@ -97,7 +77,7 @@ export default abstract class Entity extends Polygon{
      *  return a boolean indicating if entity has moved
      */
     public update(): boolean{
-        this.movementCallbacks.beforeExectute();
+        this.beforeUpdate();
         this.updateVel();
 
         let dt = 1/config.server.fps
@@ -108,15 +88,15 @@ export default abstract class Entity extends Polygon{
         }
 
         if(this.vel.x !== 0 || this.vel.y !== 0){
-            this.movementCallbacks.beforeMove();
+            this.beforeMove();
             this.x += (this.vel.x * dt) + (dt_2*this.accel.x * 0.5)
             this.y += (this.vel.y * dt)+ (dt_2*this.accel.y * 0.5) 
-            this.movementCallbacks.afterMove();
-            this.movementCallbacks.afterExecute();
+            this.afterMove();
+            this.afterUpdate();
             return true;
         }
         else{
-            this.movementCallbacks.afterExecute();
+            this.afterUpdate();
             return false;
         }        
     }

@@ -15,11 +15,11 @@ export default class Blob extends Entity{
         }, id)
         
         this.growthRate = 0.95;
+    }
 
-        this.movementCallbacks.afterExecute = () =>{
-            if(this.size.width < Blob.minSize){
-                this.kill();
-            }
+    protected afterUpdate(){
+        if(this.size.width < Blob.minSize){
+            this.kill();
         }
     }
 
