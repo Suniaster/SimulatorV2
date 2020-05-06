@@ -1,13 +1,9 @@
 import Entity, { Point } from "./Entity";
-import EntityManager from "../world/EntityManager";
 import World from "../world/World";
-
-
 
 
 export default class Blob extends Entity{
     static minSize = 25;
-    static maxVel = 100;
     constructor(world: World,position:Point, id?:string){
         super(world, position,  {
             width: 100,
@@ -15,6 +11,7 @@ export default class Blob extends Entity{
         }, id)
         
         this.growthRate = 0.95;
+        this.maxVel = 100;
     }
 
     protected afterUpdate(){
@@ -36,8 +33,8 @@ export default class Blob extends Entity{
 
     moveInDirection(direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 }){
         this.changeVelU({
-            x: Blob.maxVel*direction.x,
-            y: Blob.maxVel*direction.y
+            x: this.maxVel*direction.x,
+            y: this.maxVel*direction.y
         })
     }
 
