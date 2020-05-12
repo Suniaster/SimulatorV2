@@ -70,7 +70,8 @@ export default abstract class Entity extends Polygon{
             type: this.type,
             size: this.size,
             id: this.id,
-            growthRate: this.growthRate
+            growthRate: this.growthRate,
+            maxVel: this.maxVel
         }
     }
 
@@ -148,7 +149,7 @@ export default abstract class Entity extends Polygon{
         if(this.accel.x !== 0 || this.accel.y !== 0 ){
             this.vel.x += this.accel.x * dt
             this.vel.y += this.accel.y * dt
-            this.vel.limit(this.maxVel);
+            // this.vel.limit(this.maxVel);
         }
     }
 

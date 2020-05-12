@@ -64,11 +64,7 @@ export default class Vector2D{
     }
 
     public heading(){
-        let hip = this.mag()
-        if(hip === 0 )return 0
-        return Math.acos(
-            this.x/hip
-        )
+        return Math.atan2(this.y, this.x)
     }
 
     public dist(vector: Vector2D){

@@ -7,7 +7,8 @@ export type EntityInfo = {
     type: string,
     size: {width:number, height:number},
     id: string,
-    growthRate: number
+    growthRate: number,
+    maxVel: number
 }
 
 export type Point = {
