@@ -1,18 +1,20 @@
 import EntityManager from "./EntityManager";
-import Blob from "../entities/Blob";
-import config from '../config.json'
-import Glob from "../entities/Glob";
+import Blob from "./entities/Blob";
+import Glob from "./entities/Glob";
+import { EventEmitter } from "events";
 
 
 export default class World{
     public entities: EntityManager
     private timeControl: NodeJS.Timeout
     static size = {width: 1200, height: 800}
-    public time;
-
-    constructor(private io: SocketIO.Server){
+    public time:number;
+    public events: EventEmitter;
+    constructor(public fps=15){
         this.entities = new EntityManager(this);
         this.time = 0;
+        
+        this.events = new EventEmitter();
     }
 
     public setup(){
@@ -23,7 +25,7 @@ export default class World{
     }
 
     public start(){
-        this.timeControl = setInterval(this.passTime, 1000/config.server.fps)
+        this.timeControl = setInterval(this.passTime, 1000/this.fps)
     }
 
     public stop(){
@@ -35,7 +37,7 @@ export default class World{
     }
 
     public emitEvent(eventName:string, ...args){
-        this.io.emit(eventName, ...args);
+        this.events.emit(eventName, ...args);
     }
 
     public createBlob(id?:string){

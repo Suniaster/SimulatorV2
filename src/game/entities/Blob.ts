@@ -1,7 +1,5 @@
 import Entity, { Point } from "./Entity";
-import World from "../world/World";
-import Vector2D from "../../shared/Vector2D";
-
+import World from "../WorldEngine";
 
 export default class Blob extends Entity{
     static minSize = 25;
@@ -33,13 +31,10 @@ export default class Blob extends Entity{
     }
 
     moveInDirection(direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 }){
-        // this.changeVelU({
-        //     x: this.maxVel*direction.x,
-        //     y: this.maxVel*direction.y
-        // })
-        this.accel.x = direction.x*50
-        this.accel.y = direction.y*50
-        this.updateSelfWorld();
+        this.changeVelU({
+            x: this.maxVel*direction.x,
+            y: this.maxVel*direction.y
+        })
     }
 
 }

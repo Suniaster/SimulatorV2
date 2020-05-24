@@ -1,9 +1,7 @@
 import  { Polygon } from 'detect-collisions'
-import EntityManager from '../world/EntityManager';
-import config from '../config.json';
-import { EntityInfo } from '../../shared/types';
-import World from '../world/World';
-import Vector2D from '../../shared/Vector2D';
+import { EntityInfo } from '../helpers/types';
+import Vector2D from '../helpers/Vector2D';
+import World from '../WorldEngine';
 
 export type Point = {
     x: number,
@@ -82,7 +80,7 @@ export default abstract class Entity extends Polygon{
         this.beforeUpdate();
         this.updateVel();
 
-        let dt = 1/config.server.fps
+        let dt = 1/this.world.fps
         let dt_2 = (dt*dt)
 
         if(this.growthRate !== 1){
@@ -145,7 +143,7 @@ export default abstract class Entity extends Polygon{
     }
 
     private updateVel(){
-        let dt = 1/ config.server.fps
+        let dt = 1/ this.world.fps
         if(this.accel.x !== 0 || this.accel.y !== 0 ){
             this.vel.x += this.accel.x * dt
             this.vel.y += this.accel.y * dt

@@ -1,6 +1,6 @@
 import Entity from "./Entity";
-import World from "../world/World";
-import { Point } from "../../shared/types";
+import World from "../WorldEngine";
+import { Point } from "../helpers/types";
 
 export default class Glob extends Entity {
 

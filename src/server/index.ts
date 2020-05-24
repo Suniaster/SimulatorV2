@@ -1,7 +1,12 @@
 import ServerController from "./ServerController";
-import IOController from "./sockets/IOController";
+import ServerEngine from "./ServerEngine";
+import World from "../game/WorldEngine";
 
 
 let server = new ServerController()
 server.initServer()
-new IOController(server.server).registerControllers()
+
+let world  = new World()
+let engine = new ServerEngine(server.server, world)
+
+engine.start()
