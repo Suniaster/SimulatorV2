@@ -4,7 +4,10 @@ import RectangleEntity from "./RectangleEntity";
 
 export default class ActionField extends RectangleEntity{
     constructor(size:{width: number, height: number}, private owner: Entity ){
-        super(owner.world, {x: owner.x, y:owner.y}, size);
+        super(owner.world, { 
+            position:{x: owner.x, y:owner.y}, 
+            size
+        });
     }
 
     public beforeUpdate(){

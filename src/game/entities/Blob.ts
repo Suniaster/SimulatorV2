@@ -1,14 +1,13 @@
 import Entity, { Point } from "./Entity";
 import World from "../WorldEngine";
 import RectangleEntity from "./RectangleEntity";
+import { EntityOptions } from "../helpers/types";
 
 export default class Blob extends RectangleEntity{
     static minSize = 25;
-    constructor(world: World,position:Point, id?:string){
-        super(world, position,  {
-            width: 100,
-            height: 100
-        }, id)
+    constructor(world: World, entityOptions: EntityOptions){
+        entityOptions.size = {width: 100,height: 100}
+        super(world, entityOptions)
         
         this.changeGrowthRate(0.95, false);
         this.maxVel = 100;

@@ -1,13 +1,25 @@
+import Vector2D from "./Vector2D"
 
 export type EntityInfo = {
-    x: number,
-    y: number,
-    vel: Point,
-    accel: Point,
+    position: Point,
+    vel: Vector2D,
+    accel: Vector2D,
     type: string,
     id: string,
     growthRate: number,
-    maxVel: number
+    maxVel: number,
+    size?: {width:number, height:number}
+}
+
+export type EntityOptions={
+    position?: Point,
+    points?: number[][],
+    id?: string,
+    vel?: Vector2D,
+    accel?: Vector2D,
+    maxVel?: number,
+    growthRate?: number,
+    size?: {width:number, height:number}
 }
 
 export type Point = {

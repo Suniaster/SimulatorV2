@@ -12,23 +12,24 @@ export default class ClientEngine{
         this.world.setup()
         this.world.start()
 
-        // this.socket.on("connect", ()=>{
-        //     this.world.referenceEnitityId = this.socket.id
-        // })
+        this.socket.on("connect", ()=>{
+            // this.world.referenceEnitityId = this.socket.id
+        })
 
-        // this.socket.on("updateObjects", (infos)=>{
-        //     infos.forEach((info)=>{
-        //         this.world.entities.updateOrCreateEntity(info)
-        //     })
-        // })
+        this.socket.on("updateObjects", (infos)=>{
+            infos.forEach((info)=>{
+                this.world.entities.updateOrCreateWithInfo(info)
+            })
+        })
 
-        // this.socket.on('objectCreated', info => {
-        //     this.world.entities.updateOrCreateEntity(info)
-        // })
+        this.socket.on('objectCreated', info => {
+            this.world.entities.updateOrCreateWithInfo(info)
+        })
 
-        // this.socket.on("objectDestroyed", (id)=>{
-        //     this.world.entities.delete(id);
-        // })
+        this.socket.on("objectDestroyed", (id)=>{
+            let ent = this.world.entities.getEntity(id);
+            ent.destroy();
+        })
     }
 
 }

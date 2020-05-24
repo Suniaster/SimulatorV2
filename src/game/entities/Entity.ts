@@ -1,5 +1,5 @@
 import  { Polygon } from 'detect-collisions'
-import { EntityInfo } from '../helpers/types';
+import { EntityInfo, EntityOptions } from '../helpers/types';
 import Vector2D from '../helpers/Vector2D';
 import World from '../WorldEngine';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,38 +20,57 @@ export default abstract class Entity extends Polygon{
     private accel: Vector2D;
     private growthRate: number;
     protected maxVel: number;
-    public readonly type: string;    
+    public readonly type: string; 
+    protected points: number[][];
+    public readonly id:string;
 
     constructor(
         public world:World,
-        position: Point, 
-        protected points: number[][], 
-        public readonly id = uuidv4()
+        entityOptions: EntityOptions = {}
     ){
         super(
-            position.x, 
-            position.y,
-            points
+            entityOptions.position.x, 
+            entityOptions.position.y,
+            entityOptions.points
         )
-        this.vel = new Vector2D(0,0);
-        this.maxVel = 300;
-        this.accel = new Vector2D(0,0);
-        this.growthRate = 1;
-        this.type = this.constructor.name;
+        
+        let defaultOptions: EntityOptions = {
+            position: {x: 0,y: 0},
+            points: [[0,0]],
+            id: uuidv4(),
+            vel: new Vector2D(0,0),
+            accel: new Vector2D(0,0),
+            growthRate: 1, 
+            maxVel: 300
+        }
+
+        let opt = Object.assign(defaultOptions, entityOptions)
+        //
+        this.points = opt.points
+        this.id     = opt.id
+        this.vel    = opt.vel
+        this.maxVel = opt.maxVel;
+        this.accel  = opt.accel;
+        this.type   = this.constructor.name;
+        this.growthRate = opt.growthRate;
     }
     
     public abstract handleCollisionWith(entity: Entity);
     protected beforeMove(){}
     protected afterMove(){}
     protected beforeUpdate(){}
-    protected afterUpdate(){}
+    protected afterUpdate(){
+        if(this.world.drawEntities) this.drawEntities()
+    }
 
     protected drawEntities(){}
     
     public getInfo(): EntityInfo{
         return {
-            x: this.x,
-            y: this.y,
+            position:{
+                x: this.x,
+                y: this.y,
+            },
             vel: this.vel,
             accel: this.accel,
             type: this.type,
@@ -61,6 +80,15 @@ export default abstract class Entity extends Polygon{
         }
     }
 
+    public updateByInfo(info:EntityInfo){
+        this.x = info.position.x
+        this.y = info.position.y
+
+        this.vel = info.vel
+        this.accel = info.accel
+        this.growthRate = info.growthRate
+        this.maxVel = info.maxVel
+    }
     /**
      *  return a boolean indicating if entity has moved
      */
@@ -87,8 +115,6 @@ export default abstract class Entity extends Polygon{
             this.afterUpdate();
             return false;
         }
-        
-        if(this.world.drawEntities) this.drawEntities()
     }
 
     public changeVel(newVel: Point){

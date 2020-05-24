@@ -1,25 +1,34 @@
 import Entity from "./Entity";
 import World from "../WorldEngine";
-import { Point } from "../helpers/types";
+import { Point, EntityOptions, EntityInfo } from "../helpers/types";
 
 
 
 export default abstract class RectangleEntity extends Entity{
 
     private originalSize: {width:number, height:number};
-
-    constructor(world: World, position: Point, public size: {width:number, height:number}, id?:string){
-        super(world, position, [
+    size:  {width:number, height:number}
+    constructor(world: World, entityOptions: EntityOptions){
+        let size = entityOptions.size
+        entityOptions.points = [ 
             [-size.width/2, -size.height/2],
             [ size.width/2, -size.height/2],
             [ size.width/2,  size.height/2],
             [-size.width/2,  size.height/2]
-        ], id)
+        ]
+        super(world, entityOptions)
 
+        this.size = entityOptions.size
         this.originalSize = this.size
     }
 
-
+    public getInfo(): EntityInfo{
+        let info = super.getInfo()
+        return {
+            ...info,
+            size: this.size
+        }
+    }
 
     public changeSize(newSize: {width:number, height:number}){
         let new_scale_x = newSize.width/this.originalSize.width;
