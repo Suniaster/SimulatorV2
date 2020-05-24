@@ -118,12 +118,14 @@ export default abstract class Entity extends Polygon{
             this.emitSelfUpdate();
     }
 
-    public getAlive(){
-        this.defaultGetAlive();
+    public create(){
+        this.world.entities.register(this);
     }
 
-    public kill(){
-        this.defaultKill();
+    public destroy(){
+        this.world
+            .entities
+            .remove(this) 
     }
     
     public getPos(){
@@ -147,23 +149,6 @@ export default abstract class Entity extends Polygon{
             this.vel.x += this.accel.x * dt
             this.vel.y += this.accel.y * dt
             // this.vel.limit(this.maxVel);
-        }
-    }
-
-    protected defaultGetAlive(){
-        let entered = this.world.entities.register(this);
-        if(entered){
-            this.world.entities.collisionSystem.insert(this)
-        }
-    }
-
-    protected defaultKill(){
-        let removed = this.world
-            .entities
-            .remove(this) 
-        if(removed){
-            // removes from collision system
-            this.remove() 
         }
     }
 

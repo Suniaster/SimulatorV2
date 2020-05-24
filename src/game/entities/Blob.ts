@@ -15,13 +15,13 @@ export default class Blob extends Entity{
 
     protected afterUpdate(){
         if(this.size.width < Blob.minSize){
-            this.kill();
+            this.destroy();
         }
     }
 
     public handleCollisionWith(entity: Entity){
         if(entity.type === "Glob"){
-            entity.kill();
+            entity.destroy();
             this.changeSize({
                 width: this.size.width + 15,
                 height: this.size.height + 15

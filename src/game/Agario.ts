@@ -7,21 +7,21 @@ export default class Agario extends World{
     public setup(){
         for(let i=0;i<50;i+=1){
             let pos = World.generateRandomCoord()
-            new Glob(this, {x: pos.x, y: pos.y}).getAlive()
+            new Glob(this, {x: pos.x, y: pos.y}).create()
         }
     }
 
     public createBlob(id?:string){
         let spawnPoint = World.generateRandomCoord()
         let blob = new Blob(this, {x: spawnPoint.x, y:spawnPoint.y}, id)
-        blob.getAlive()
+        blob.create()
         return blob;
     }
 
     protected beforeTimePasses(){
         if(this.time % 20 === 0){
             let pos = World.generateRandomCoord()
-            new Glob(this, {x: pos.x, y: pos.y}).getAlive()
+            new Glob(this, {x: pos.x, y: pos.y}).create()
         }
     }
 

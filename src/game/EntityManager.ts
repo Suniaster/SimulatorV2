@@ -75,13 +75,7 @@ export default class EntityManager{
         })
     }
 
-    /*** pseudo public ***/
 
-    /**
-     * 
-     *  This function does not insert enitity on collision system
-     *  entity.getAlive() should be used instead
-     */
     public register(newEntity: Entity):Entity{
         let id = newEntity.id
 
@@ -92,6 +86,7 @@ export default class EntityManager{
 
         if(!this.entites[id]){
             this.entites[id] = newEntity
+            this.world.entities.collisionSystem.insert(this.entites[id])
             this.world.events.emit("objectCreated", newEntity.getInfo())
             this.count++;
             return newEntity
@@ -102,17 +97,13 @@ export default class EntityManager{
         }
     }
 
-    /**
-     * 
-     *  This function does remove enitity on collision system
-     *  entity.kill() should be used instead
-     */
     public remove(entity:Entity):Entity{
         let id = entity.id
         let removed = this.entites[id]
         if(removed){
             this.count--;
             this.world.events.emit("objectDestroyed", id)
+            this.entites[id].remove()
             delete this.entites[id]
         }
         return removed

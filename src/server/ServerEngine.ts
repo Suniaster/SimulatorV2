@@ -1,13 +1,13 @@
-import World from "../game/WorldEngine";
 import Blob from "../game/entities/Blob";
 import SocketIO from 'socket.io'
 import http from 'http'
 import { EntityInfo } from "../game/helpers/types";
+import Agario from "../game/Agario";
 
 export default class ServerEngine{
   io: SocketIO.Server
 
-  constructor(private server: http.Server, private world: World){
+  constructor(private server: http.Server, private world: Agario){
     this.io = SocketIO(this.server);
   }
 
@@ -31,7 +31,7 @@ export default class ServerEngine{
 
       socket.on("disconnect", ()=>{
           let blob = this.world.entities.getEntity(socket.id)
-          if(blob) blob.kill();
+          if(blob) blob.destroy();
       })
     })
   }
