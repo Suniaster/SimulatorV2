@@ -22,5 +22,6 @@ export type Vector = {
 
 export type WorldOptions = {
     updateRate?: number,
-    shouldHandleCollisions?: boolean
+    shouldHandleCollisions?: boolean,
+    drawEntities?: boolean
 }

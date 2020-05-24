@@ -46,6 +46,8 @@ export default abstract class Entity extends Polygon{
     protected beforeUpdate(){}
     protected afterUpdate(){}
 
+    protected drawEntities(){}
+    
     public getInfo(): EntityInfo{
         return {
             x: this.x,
@@ -84,7 +86,9 @@ export default abstract class Entity extends Polygon{
         else{
             this.afterUpdate();
             return false;
-        }        
+        }
+        
+        if(this.world.drawEntities) this.drawEntities()
     }
 
     public changeVel(newVel: Point){

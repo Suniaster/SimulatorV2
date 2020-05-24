@@ -10,11 +10,11 @@ export default class AgarioServerEngine extends ServerEngine{
         this.registerEventListener('changeBlobDir', this.changeBlobDir)
     }
 
-    onConnection(socket){
+    onConnection(socket:SocketIO.Socket){
         this.world.createBlob(socket.id);
     }
 
-    onDisconnect(socket){
+    onDisconnect(socket:SocketIO.Socket){
         let blob = this.world.entities.getEntity(socket.id)
         if(blob) blob.destroy();
     }

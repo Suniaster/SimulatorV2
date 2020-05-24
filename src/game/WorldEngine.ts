@@ -12,10 +12,12 @@ export default class World{
     // Options
     public updateRate: number;
     public shouldHandleCollisions: boolean;
+    public drawEntities: boolean
 
     constructor(worldOptions:WorldOptions = {
         updateRate: 15,
-        shouldHandleCollisions: true
+        shouldHandleCollisions: true,
+        drawEntities: false
     }){
         this.entities = new EntityManager(this);
         
@@ -24,7 +26,8 @@ export default class World{
 
         // Options
         this.updateRate = worldOptions.updateRate;
-        this.shouldHandleCollisions = worldOptions.shouldHandleCollisions
+        this.shouldHandleCollisions = worldOptions.shouldHandleCollisions;
+        this.drawEntities = worldOptions.drawEntities
     }
 
     public setup(){}
