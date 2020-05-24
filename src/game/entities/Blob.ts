@@ -1,7 +1,8 @@
 import Entity, { Point } from "./Entity";
 import World from "../WorldEngine";
+import RectangleEntity from "./RectangleEntity";
 
-export default class Blob extends Entity{
+export default class Blob extends RectangleEntity{
     static minSize = 25;
     constructor(world: World,position:Point, id?:string){
         super(world, position,  {

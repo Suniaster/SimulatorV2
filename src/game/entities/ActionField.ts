@@ -1,7 +1,8 @@
 import Entity from "./Entity";
+import RectangleEntity from "./RectangleEntity";
 
 
-export default class ActionField extends Entity{
+export default class ActionField extends RectangleEntity{
     constructor(size:{width: number, height: number}, private owner: Entity ){
         super(owner.world, {x: owner.x, y:owner.y}, size);
     }

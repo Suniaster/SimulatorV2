@@ -21,30 +21,23 @@ export default abstract class Entity extends Polygon{
     private growthRate: number;
     protected maxVel: number;
     public readonly type: string;    
-    private originalSize: {width:number, height:number};
 
     constructor(
         public world:World,
         position: Point, 
-        protected size?: {width:number, height:number}, 
+        protected points: number[][], 
         public readonly id = uuidv4()
     ){
         super(
             position.x, 
             position.y,
-            [
-            [-size.width/2, -size.height/2],
-            [ size.width/2, -size.height/2],
-            [ size.width/2,  size.height/2],
-            [-size.width/2,  size.height/2]
-            ]
+            points
         )
         this.vel = new Vector2D(0,0);
         this.maxVel = 300;
         this.accel = new Vector2D(0,0);
         this.growthRate = 1;
         this.type = this.constructor.name;
-        this.originalSize = this.size
     }
     
     public abstract handleCollisionWith(entity: Entity);
@@ -60,7 +53,6 @@ export default abstract class Entity extends Polygon{
             vel: this.vel,
             accel: this.accel,
             type: this.type,
-            size: this.size,
             id: this.id,
             growthRate: this.growthRate,
             maxVel: this.maxVel
@@ -78,13 +70,13 @@ export default abstract class Entity extends Polygon{
         let dt_2 = (dt*dt)
 
         if(this.growthRate !== 1){
-            this.scaleSize({scale_x: Math.pow(this.growthRate, dt), scale_y: Math.pow(this.growthRate, dt)})
+            this.scale({scale_x: Math.pow(this.growthRate, dt), scale_y: Math.pow(this.growthRate, dt)})
         }
 
         if(this.vel.x !== 0 || this.vel.y !== 0){
             this.beforeMove();
             this.x += (this.vel.x * dt) + (dt_2*this.accel.x * 0.5)
-            this.y += (this.vel.y * dt)+ (dt_2*this.accel.y * 0.5) 
+            this.y += (this.vel.y * dt) + (dt_2*this.accel.y * 0.5) 
             this.afterMove();
             this.afterUpdate();
             return true;
@@ -98,17 +90,6 @@ export default abstract class Entity extends Polygon{
     public changeVel(newVel: Point){
         this.vel.x = newVel.x
         this.vel.y = newVel.y
-        this.emitSelfUpdate();
-    }
-
-    public changeSize(newSize: {width:number, height:number}){
-        let new_scale_x = newSize.width/this.originalSize.width;
-        let new_scale_y = newSize.height/this.originalSize.height;
-
-        this.scale_x = new_scale_x;
-        this.scale_y = new_scale_y;
-
-        this.size = newSize;
         this.emitSelfUpdate();
     }
 
@@ -128,15 +109,14 @@ export default abstract class Entity extends Polygon{
             .remove(this) 
     }
     
-    public getPos(){
+    public getPosVector(){
         return new Vector2D(this.x, this.y)
     }
-    protected scaleSize({scale_x=1, scale_y=1}){
+
+    protected scale({scale_x=1, scale_y=1}){
         this.scale_x *= scale_x
         this.scale_y *= scale_y
 
-        this.size.width *= scale_x
-        this.size.height *= scale_y
     }
 
     public emitSelfUpdate(){
