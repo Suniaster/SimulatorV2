@@ -36,9 +36,6 @@ export default class World{
         this.entities.reset();
     }
 
-    public emitEvent(eventName:string, ...args){
-        this.events.emit(eventName, ...args);
-    }
 
     public createBlob(id?:string){
         let spawnPoint = World.generateRandomCoord()

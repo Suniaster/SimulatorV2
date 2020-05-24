@@ -30,8 +30,7 @@ export default class EntityManager{
 
     public getEntitiesInfo():EntityInfo[]{
         return Object.values(this.entites).reduce((acc, entity)=>{
-            if(entity.emitWorldEvents)
-                acc.push(entity.getInfo())
+            acc.push(entity.getInfo())
             return acc
         }, []);
     }
@@ -91,8 +90,7 @@ export default class EntityManager{
 
         if(!this.entites[id]){
             this.entites[id] = newEntity
-            if(this.entites[id].emitWorldEvents)
-                this.world.emitEvent("objectCreated", newEntity.getInfo())
+            this.world.events.emit("objectCreated", newEntity.getInfo())
             this.count++;
             return newEntity
         }
@@ -112,8 +110,7 @@ export default class EntityManager{
         let removed = this.entites[id]
         if(removed){
             this.count--;
-            if(this.entites[id].emitWorldEvents)
-                this.world.emitEvent("objectDestroyed", id)
+            this.world.events.emit("objectDestroyed", id)
             delete this.entites[id]
         }
         return removed

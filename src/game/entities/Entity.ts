@@ -15,13 +15,12 @@ export type Vector = {
 
 
 export default abstract class Entity extends Polygon{
-    protected vel: Vector2D;
-    protected accel: Vector2D;
-    protected growthRate: number;
+    private vel: Vector2D;
+    private accel: Vector2D;
+    private growthRate: number;
     protected maxVel: number;
     public readonly type: string;    
     private originalSize: {width:number, height:number};
-    public emitWorldEvents: boolean
 
     constructor(public world:World, position: Point, protected size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
         super(
@@ -40,7 +39,6 @@ export default abstract class Entity extends Polygon{
         this.growthRate = 1;
         this.type = this.constructor.name;
         this.originalSize = this.size
-        this.emitWorldEvents = true
     }
 
     static makeid(length) {
@@ -101,13 +99,13 @@ export default abstract class Entity extends Polygon{
         }        
     }
 
-    public changeVelU(newVel: Point){
+    public changeVel(newVel: Point){
         this.vel.x = newVel.x
         this.vel.y = newVel.y
-        this.updateSelfWorld();
+        this.emitSelfUpdate();
     }
 
-    public changeSizeU(newSize: {width:number, height:number}){
+    public changeSize(newSize: {width:number, height:number}){
         let new_scale_x = newSize.width/this.originalSize.width;
         let new_scale_y = newSize.height/this.originalSize.height;
 
@@ -115,7 +113,13 @@ export default abstract class Entity extends Polygon{
         this.scale_y = new_scale_y;
 
         this.size = newSize;
-        this.updateSelfWorld();
+        this.emitSelfUpdate();
+    }
+
+    public changeGrowthRate(newGrowthRate:number, emitEvent=true){
+        this.growthRate = newGrowthRate
+        if(emitEvent)
+            this.emitSelfUpdate();
     }
 
     public getAlive(){
@@ -137,9 +141,8 @@ export default abstract class Entity extends Polygon{
         this.size.height *= scale_y
     }
 
-    public updateSelfWorld(){
-        if(this.emitWorldEvents)
-            this.world.emitEvent("updateObjects", [this.getInfo()])
+    public emitSelfUpdate(){
+        this.world.events.emit("updateObjects", [this.getInfo()])
     }
 
     private updateVel(){

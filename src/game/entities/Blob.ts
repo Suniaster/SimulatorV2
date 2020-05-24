@@ -9,7 +9,7 @@ export default class Blob extends Entity{
             height: 100
         }, id)
         
-        this.growthRate = 0.95;
+        this.changeGrowthRate(0.95, false);
         this.maxVel = 100;
     }
 
@@ -22,7 +22,7 @@ export default class Blob extends Entity{
     public handleCollisionWith(entity: Entity){
         if(entity.type === "Glob"){
             entity.kill();
-            this.changeSizeU({
+            this.changeSize({
                 width: this.size.width + 15,
                 height: this.size.height + 15
             })
@@ -31,7 +31,7 @@ export default class Blob extends Entity{
     }
 
     moveInDirection(direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 }){
-        this.changeVelU({
+        this.changeVel({
             x: this.maxVel*direction.x,
             y: this.maxVel*direction.y
         })

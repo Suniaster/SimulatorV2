@@ -2,6 +2,7 @@ import World from "../game/WorldEngine";
 import Blob from "../game/entities/Blob";
 import SocketIO from 'socket.io'
 import http from 'http'
+import { EntityInfo } from "../game/helpers/types";
 
 export default class ServerEngine{
   io: SocketIO.Server
@@ -36,8 +37,20 @@ export default class ServerEngine{
   }
 
   protected startWorld(){
+    this.world.events.on('objectCreated', ()=>{
+
+    })
+
+    this.world.events.on("objectDestroyed", ()=>{
+
+    })
+
+    this.world.events.on("updateObjects", (infos: EntityInfo[])=>{
+
+    })
+
+
     this.world.setup();
     this.world.start();
   }
-
 }
