@@ -2,6 +2,7 @@ import  { Polygon } from 'detect-collisions'
 import { EntityInfo } from '../helpers/types';
 import Vector2D from '../helpers/Vector2D';
 import World from '../WorldEngine';
+import { v4 as uuidv4 } from 'uuid';
 
 export type Point = {
     x: number,
@@ -22,7 +23,12 @@ export default abstract class Entity extends Polygon{
     public readonly type: string;    
     private originalSize: {width:number, height:number};
 
-    constructor(public world:World, position: Point, protected size?: {width:number, height:number}, public readonly id = Entity.makeid(6)){
+    constructor(
+        public world:World,
+        position: Point, 
+        protected size?: {width:number, height:number}, 
+        public readonly id = uuidv4()
+    ){
         super(
             position.x, 
             position.y,
@@ -39,16 +45,6 @@ export default abstract class Entity extends Polygon{
         this.growthRate = 1;
         this.type = this.constructor.name;
         this.originalSize = this.size
-    }
-
-    static makeid(length) {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
     }
     
     public abstract handleCollisionWith(entity: Entity);
@@ -78,7 +74,7 @@ export default abstract class Entity extends Polygon{
         this.beforeUpdate();
         this.updateVel();
 
-        let dt = 1/this.world.fps
+        let dt = 1/this.world.updateRate
         let dt_2 = (dt*dt)
 
         if(this.growthRate !== 1){
@@ -146,7 +142,7 @@ export default abstract class Entity extends Polygon{
     }
 
     private updateVel(){
-        let dt = 1/ this.world.fps
+        let dt = 1/ this.world.updateRate
         if(this.accel.x !== 0 || this.accel.y !== 0 ){
             this.vel.x += this.accel.x * dt
             this.vel.y += this.accel.y * dt

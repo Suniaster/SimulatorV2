@@ -1,8 +1,6 @@
 import EntityManager from "./EntityManager";
-import Blob from "./entities/Blob";
-import Glob from "./entities/Glob";
 import { EventEmitter } from "events";
-
+import {WorldOptions} from './helpers/types'
 
 export default class World{
     public entities: EntityManager
@@ -10,22 +8,29 @@ export default class World{
     static size = {width: 1200, height: 800}
     public time:number;
     public events: EventEmitter;
-    constructor(public fps=15){
+
+    // Options
+    public updateRate: number;
+    public shouldHandleCollisions: boolean;
+
+    constructor(worldOptions:WorldOptions = {
+        updateRate: 15,
+        shouldHandleCollisions: true
+    }){
         this.entities = new EntityManager(this);
-        this.time = 0;
         
+        this.time = 0;
         this.events = new EventEmitter();
+
+        // Options
+        this.updateRate = worldOptions.updateRate;
+        this.shouldHandleCollisions = worldOptions.shouldHandleCollisions
     }
 
-    public setup(){
-        for(let i=0;i<50;i+=1){
-            let pos = World.generateRandomCoord()
-            new Glob(this, {x: pos.x, y: pos.y}).getAlive()
-        }
-    }
+    public setup(){}
 
     public start(){
-        this.timeControl = setInterval(this.passTime, 1000/this.fps)
+        this.timeControl = setInterval(this.passTime, 1000/this.updateRate)
     }
 
     public stop(){
@@ -36,13 +41,6 @@ export default class World{
         this.entities.reset();
     }
 
-
-    public createBlob(id?:string){
-        let spawnPoint = World.generateRandomCoord()
-        let blob = new Blob(this, {x: spawnPoint.x, y:spawnPoint.y}, id)
-        blob.getAlive()
-        return blob;
-    }
 
     private passTime = () => {
         this.beforeTimePasses();
@@ -59,15 +57,6 @@ export default class World{
         }
     }
 
-
-    private beforeTimePasses(){
-        if(this.time % 20 === 0){
-            let pos = World.generateRandomCoord()
-            new Glob(this, {x: pos.x, y: pos.y}).getAlive()
-        }
-    }
-
-    private afterTimePasses(){
-
-    }
+    protected beforeTimePasses(){}
+    protected afterTimePasses(){}
 }   

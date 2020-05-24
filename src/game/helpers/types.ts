@@ -20,3 +20,8 @@ export type Vector = {
     a: Point,
     b: Point
 }
+
+export type WorldOptions = {
+    updateRate?: number,
+    shouldHandleCollisions?: boolean
+}
