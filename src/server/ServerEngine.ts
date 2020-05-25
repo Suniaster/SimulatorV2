@@ -70,8 +70,6 @@ export default class ServerEngine{
 
     }
 
-
-    this.world.setup();
-    this.world.start();
+    // this.world.start(); // TODO world timestepLoop
   }
 }

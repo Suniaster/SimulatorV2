@@ -4,7 +4,6 @@ import {WorldConfig} from './helpers/types'
 
 export default class World{
     public entities: EntityManager
-    private timeControl: NodeJS.Timeout
     static size = {width: 1200, height: 800}
     public events: EventEmitter;
 
@@ -47,12 +46,6 @@ export default class World{
         }
     }
 
-    public setup(){}
-
-    public stop(){
-        clearInterval(this.timeControl)
-    }
-    
     public reset(){
         this.entities.reset();
     }

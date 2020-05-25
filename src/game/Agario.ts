@@ -1,17 +1,12 @@
 import World from "./WorldEngine";
 import Blob from "./entities/Blob";
 import Glob from "./entities/Glob";
+import { WorldConfig } from "./helpers/types";
 
 export default class Agario extends World{
 
-
-    public setup(){
-        for(let i=0;i<5;i+=1){
-            let pos = World.generateRandomCoord()
-            new Glob(this, {position:{x: pos.x, y: pos.y}}).create()
-        }
-
-        this.events.on("preTimeStep", this.beforeTimePasses)
+    constructor(worldOptions: WorldConfig){
+        super(worldOptions)
     }
 
     public createBlob(id?:string){
@@ -25,12 +20,4 @@ export default class Agario extends World{
         blob.create()
         return blob;
     }
-
-    protected beforeTimePasses(){
-        if(this.time % 20 === 0){
-            let pos = World.generateRandomCoord()
-            new Glob(this, {position:{x: pos.x, y: pos.y}}).create()
-        }
-    }
-
 }
