@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc",
     "webpack": "node ./node_modules/.bin/webpack",
+    "full-build": "yarn build && yarn webpack",
     "start": "node ./dist/server"
   },
   "license": "MIT",

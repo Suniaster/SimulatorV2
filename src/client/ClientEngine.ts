@@ -13,13 +13,10 @@ export default class ClientEngine {
   }
 
   start() {
-    this.world.events.on("posTimeStep", () => {
-      console.log("time:", this.world.time);
-    });
-
     this.socket.on("connect", () => {
       this.startAnimation();
       this.clientId = this.socket.id;
+      this.socket.emit("getAllObjects");
       this.events.emit("clientConnected", this.socket);
     });
 

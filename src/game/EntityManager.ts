@@ -55,8 +55,8 @@ export default class EntityManager {
   public performCollisions() {
     this.collisionSystem.update();
 
-    for(let id of Object.keys(this.entites)){
-      let entity = this.entites[id]
+    for (let id of Object.keys(this.entites)) {
+      let entity = this.entites[id];
       if (!entity) continue;
 
       let potential = entity.potentials() as Entity[];
@@ -68,7 +68,7 @@ export default class EntityManager {
           }
         }
       }
-    };
+    }
   }
 
   public register(newEntity: Entity): Entity {

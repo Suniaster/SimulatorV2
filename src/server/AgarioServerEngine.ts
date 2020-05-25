@@ -1,17 +1,29 @@
 import ServerEngine from "./ServerEngine";
 import Agario from "../game/Agario";
 import Blob from "../game/entities/Blob";
+import World from "../game/WorldEngine";
+import Glob from "../game/entities/Glob";
 
 export default class AgarioServerEngine extends ServerEngine {
   world: Agario;
-  constructor(io, world: Agario) {
-    super(io, world);
+  constructor(server, world: Agario) {
+    super(server, world);
 
-    this.registerEventListener("changeBlobDir", this.changeBlobDir);
+    // this.registerEventListener("changeBlobDir", this.changeBlobDir);
+  }
+
+  setup() {
+    for (let i = 0; i < 1; i += 1) {
+      let pos = World.generateRandomCoord();
+      let g = new Glob(this.world, { position: { x: pos.x, y: pos.y } });
+      g.changeVel({ x: 10, y: 10 });
+      g.create();
+    }
   }
 
   onConnection(socket: SocketIO.Socket) {
-    this.world.createBlob(socket.id);
+    console.log("New connection:", socket.id);
+    // this.world.createBlob(socket.id);
   }
 
   onDisconnect(socket: SocketIO.Socket) {

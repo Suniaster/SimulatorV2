@@ -5,7 +5,7 @@ import World from "../game/WorldEngine";
 
 export default class ServerEngine {
   io: SocketIO.Server;
-  private events: {
+  private possibleEvents: {
     name: string;
     handler: (socket: SocketIO.Socket, ...args: any) => void;
   }[];
@@ -16,7 +16,7 @@ export default class ServerEngine {
 
   constructor(private server: http.Server, protected world: World) {
     this.io = SocketIO(this.server);
-    this.events = [];
+    this.possibleEvents = [];
     this.sockets = {};
   }
 
@@ -28,13 +28,13 @@ export default class ServerEngine {
   private startListeners() {
     this.io.on("connection", (socket) => {
       this.sockets[socket.id] = socket;
-      socket.on("updateAllObjects", () => {
+      socket.on("getAllObjects", () => {
         socket.emit("updateObjects", this.world.entities.getEntitiesInfo());
       });
 
       this.onConnection(socket);
 
-      this.events.forEach((event) => {
+      this.possibleEvents.forEach((event) => {
         socket.on(event.name, (...args) => event.handler(socket, ...args));
       });
 
@@ -49,7 +49,7 @@ export default class ServerEngine {
     name: string,
     handler: (socket, ...args) => void,
   ) {
-    this.events.push({
+    this.possibleEvents.push({
       name,
       handler,
     });
@@ -57,6 +57,7 @@ export default class ServerEngine {
 
   protected onConnection(socket: SocketIO.Socket) {}
   protected onDisconnect(socket: SocketIO.Socket) {}
+  protected setup() {}
 
   protected startWorld() {
     let worldEvents = ["objectCreated", "objectDestroyed", "updateObjects"];
@@ -70,6 +71,14 @@ export default class ServerEngine {
       });
     }
 
-    // this.world.start(); // TODO world timestepLoop
+    this.startWorldLoop();
+  }
+
+  startWorldLoop() {
+    this.setup();
+    setInterval(
+      () => this.world.timeStep(),
+      1000,
+    );
   }
 }
