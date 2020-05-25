@@ -4,7 +4,7 @@ import Glob from "./entities/Glob";
 import { WorldConfig } from "./helpers/types";
 
 export default class Agario extends World {
-  constructor(worldOptions: WorldConfig) {
+  constructor(worldOptions?: WorldConfig) {
     super(worldOptions);
   }
 
