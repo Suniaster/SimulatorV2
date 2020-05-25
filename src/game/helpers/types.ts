@@ -32,7 +32,7 @@ export type Vector = {
     b: Point
 }
 
-export type WorldOptions = {
+export type WorldConfig = {
     updateRate?: number,
     shouldHandleCollisions?: boolean,
     drawWorld?: boolean,

@@ -1,6 +1,6 @@
 import EntityManager from "./EntityManager";
 import { EventEmitter } from "events";
-import {WorldOptions, WorldDomConfig} from './helpers/types'
+import {WorldConfig} from './helpers/types'
 
 export default class World{
     public entities: EntityManager
@@ -11,13 +11,10 @@ export default class World{
     public events: EventEmitter;
 
     // Options
-    private updateRate: number;
-    public shouldHandleCollisions: boolean;
-    public drawWorld: boolean
-    public dom: WorldDomConfig;
+    public config: WorldConfig;
 
-    constructor(worldOptions:WorldOptions = {}){
-        let defaultOption: WorldOptions = {
+    constructor(worldOptions:WorldConfig = {}){
+        let defaultOption: WorldConfig = {
             updateRate: 15,
             shouldHandleCollisions: true,
             drawWorld: false,
@@ -27,39 +24,24 @@ export default class World{
                 canvas: null
             }
         }
-        worldOptions = Object.assign(defaultOption, worldOptions)
+        this.config = Object.assign(defaultOption, worldOptions)
         this.entities = new EntityManager(this);
         
         this.time = 0;
-        this.fixedDt = 1/this.updateRate;
+        this.fixedDt = 1/this.config.updateRate;
         this.events = new EventEmitter();
 
         // Options
-        this.updateRate = worldOptions.updateRate;
-        this.shouldHandleCollisions = worldOptions.shouldHandleCollisions;
-        this.drawWorld = worldOptions.drawWorld;
-        this.dom = defaultOption.dom
-        if(this.drawWorld){
-            this.dom.canvas = document.getElementById(this.dom.canvasId) as HTMLCanvasElement
-            if(!this.dom.canvasCtx)
-                this.dom.canvasCtx = this.dom.canvas.getContext("2d")
+        if(this.config.drawWorld){
+            this.config
+                .dom
+                .canvas = document.getElementById(this.config.dom.canvasId) as HTMLCanvasElement
+            if(!this.config.dom.canvasCtx)
+                this.config.dom.canvasCtx = this.config.dom.canvas.getContext("2d")
         }
     }
 
     public setup(){}
-
-    public start(){
-        // this.timeControl = setInterval(this.timeStep.bind(this), 1000/this.updateRate)
-        if(this.drawWorld){
-            this.animate()
-        }
-    }
-
-    public animate(){
-        requestAnimationFrame(()=>this.animate())
-        this.timeStep();
-        this.draw();
-    }
 
     public stop(){
         clearInterval(this.timeControl)
@@ -69,15 +51,14 @@ export default class World{
         this.entities.reset();
     }
 
-    private draw(){
-        let ctx = this.dom.canvasCtx;
-        let canvas = this.dom.canvas
+    public draw(){
+        let ctx = this.config.dom.canvasCtx;
+        let canvas = this.config.dom.canvas
         // ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         this.entities.collisionSystem.draw(ctx)
     }
 
-    private timeStep(){
+    public timeStep(){
         this.events.emit("preTimeStep")
         this.entities.updateAllEntities(this.fixedDt);
         this.entities.performCollisions();

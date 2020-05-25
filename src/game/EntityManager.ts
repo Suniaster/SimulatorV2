@@ -65,7 +65,7 @@ export default class EntityManager{
                 
                 if(entity.collides(anotherEntity)){
                     this.world.events.emit("entities/collision", entity, anotherEntity)
-                    if(this.world.shouldHandleCollisions)      
+                    if(this.world.config.shouldHandleCollisions)      
                         entity.handleCollisionWith(anotherEntity)
                 }
 
