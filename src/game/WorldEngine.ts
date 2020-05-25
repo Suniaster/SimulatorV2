@@ -1,6 +1,6 @@
 import EntityManager from "./EntityManager";
 import { EventEmitter } from "events";
-import {WorldOptions} from './helpers/types'
+import {WorldOptions, WorldDomConfig} from './helpers/types'
 
 export default class World{
     public entities: EntityManager
@@ -12,13 +12,21 @@ export default class World{
     // Options
     public updateRate: number;
     public shouldHandleCollisions: boolean;
-    public drawEntities: boolean
+    public drawWorld: boolean
+    public dom: WorldDomConfig;
 
-    constructor(worldOptions:WorldOptions = {
-        updateRate: 15,
-        shouldHandleCollisions: true,
-        drawEntities: false
-    }){
+    constructor(worldOptions:WorldOptions = {}){
+        let defaultOption: WorldOptions = {
+            updateRate: 15,
+            shouldHandleCollisions: true,
+            drawWorld: false,
+            dom:{
+                canvasId: "worldCanvas",
+                canvasCtx: null,
+                canvas: null
+            }
+        }
+        worldOptions = Object.assign(defaultOption, worldOptions)
         this.entities = new EntityManager(this);
         
         this.time = 0;
@@ -27,7 +35,13 @@ export default class World{
         // Options
         this.updateRate = worldOptions.updateRate;
         this.shouldHandleCollisions = worldOptions.shouldHandleCollisions;
-        this.drawEntities = worldOptions.drawEntities
+        this.drawWorld = worldOptions.drawWorld;
+        this.dom = defaultOption.dom
+        if(this.drawWorld){
+            this.dom.canvas = document.getElementById(this.dom.canvasId) as HTMLCanvasElement
+            if(!this.dom.canvasCtx)
+                this.dom.canvasCtx = this.dom.canvas.getContext("2d")
+        }
     }
 
     public setup(){}
@@ -49,6 +63,12 @@ export default class World{
         this.entities.updateAllEntities();
         this.entities.performCollisions();
         this.time++;
+        if(this.drawWorld){
+            let ctx  = this.dom.canvasCtx;
+            let canvas = this.dom.canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            this.entities.collisionSystem.draw(ctx)
+        }
         this.events.emit("posTimeStep")
     }
 

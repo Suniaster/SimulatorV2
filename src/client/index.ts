@@ -4,7 +4,11 @@ import ClientEngine from "./ClientEngine";
 
 let agario = new Agario({
     updateRate: 60,
-    shouldHandleCollisions: false
+    shouldHandleCollisions: false,
+    dom:{
+        canvasId: 'myCanvas'
+    },
+    drawWorld: true
 })
 
-new ClientEngine(agario)
+new ClientEngine(agario).start();

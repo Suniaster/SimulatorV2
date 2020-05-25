@@ -6,7 +6,7 @@ export default class Agario extends World{
 
 
     public setup(){
-        for(let i=0;i<50;i+=1){
+        for(let i=0;i<5;i+=1){
             let pos = World.generateRandomCoord()
             new Glob(this, {position:{x: pos.x, y: pos.y}}).create()
         }

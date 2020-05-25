@@ -35,5 +35,12 @@ export type Vector = {
 export type WorldOptions = {
     updateRate?: number,
     shouldHandleCollisions?: boolean,
-    drawEntities?: boolean
+    drawWorld?: boolean,
+    dom?: WorldDomConfig
+}
+
+export type WorldDomConfig = {
+    canvasId?: string,
+    canvasCtx?: CanvasRenderingContext2D,
+    canvas?: HTMLCanvasElement
 }

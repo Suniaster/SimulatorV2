@@ -59,11 +59,7 @@ export default abstract class Entity extends Polygon{
     protected beforeMove(){}
     protected afterMove(){}
     protected beforeUpdate(){}
-    protected afterUpdate(){
-        if(this.world.drawEntities) this.drawEntities()
-    }
-
-    protected drawEntities(){}
+    protected afterUpdate(){};
     
     public getInfo(): EntityInfo{
         return {
