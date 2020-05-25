@@ -33,7 +33,7 @@ export default class World{
     public setup(){}
 
     public start(){
-        this.timeControl = setInterval(this.passTime, 1000/this.updateRate)
+        this.timeControl = setInterval(this.timeStep, 1000/this.updateRate)
     }
 
     public stop(){
@@ -44,13 +44,12 @@ export default class World{
         this.entities.reset();
     }
 
-
-    private passTime = () => {
-        this.beforeTimePasses();
+    private timeStep = () => {
+        this.events.emit("preTimeStep")
         this.entities.updateAllEntities();
         this.entities.performCollisions();
         this.time++;
-        this.afterTimePasses();
+        this.events.emit("posTimeStep")
     }
 
     static generateRandomCoord(){
@@ -60,6 +59,4 @@ export default class World{
         }
     }
 
-    protected beforeTimePasses(){}
-    protected afterTimePasses(){}
 }   
