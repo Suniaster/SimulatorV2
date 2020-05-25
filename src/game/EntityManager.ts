@@ -47,13 +47,11 @@ export default class EntityManager{
     /**
      * Move entities and return list of moved entities
      */
-    public updateAllEntities():EntityInfo[]{
-        return Object.values(this.entites).reduce((acc, entity)=>{
-            if(entity.update()){
-                acc.push(entity.getInfo());
-            }
-            return acc;
-        }, [])
+    public updateAllEntities(dt:number):void{
+        for(let id in this.entites){
+            let entity = this.entites[id]
+            entity.timeStep(dt)
+        }
     }
 
     public performCollisions(){

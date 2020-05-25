@@ -58,8 +58,8 @@ export default abstract class Entity extends Polygon{
     public abstract handleCollisionWith(entity: Entity);
     protected beforeMove(){}
     protected afterMove(){}
-    protected beforeUpdate(){}
-    protected afterUpdate(){};
+    protected beforeTimeStep(){}
+    protected afterTimeStep(){};
     
     public getInfo(): EntityInfo{
         return {
@@ -88,12 +88,12 @@ export default abstract class Entity extends Polygon{
     /**
      *  return a boolean indicating if entity has moved
      */
-    public update(): boolean{
-        this.beforeUpdate();
-        this.updateVel();
-
-        let dt = 1/this.world.updateRate
-        let dt_2 = (dt*dt)
+    public timeStep(dt:number): boolean{
+        this.beforeTimeStep();
+        
+        this.vel.x += this.accel.x * dt
+        this.vel.y += this.accel.y * dt
+     
 
         if(this.growthRate !== 1){
             this.scale({scale_x: Math.pow(this.growthRate, dt), scale_y: Math.pow(this.growthRate, dt)})
@@ -101,14 +101,14 @@ export default abstract class Entity extends Polygon{
 
         if(this.vel.x !== 0 || this.vel.y !== 0){
             this.beforeMove();
-            this.x += (this.vel.x * dt) + (dt_2*this.accel.x * 0.5)
-            this.y += (this.vel.y * dt) + (dt_2*this.accel.y * 0.5) 
+            this.x += (this.vel.x * dt) 
+            this.y += (this.vel.y * dt) 
             this.afterMove();
-            this.afterUpdate();
+            this.afterTimeStep();
             return true;
         }
         else{
-            this.afterUpdate();
+            this.afterTimeStep();
             return false;
         }
     }
@@ -147,15 +147,6 @@ export default abstract class Entity extends Polygon{
 
     public emitSelfUpdate(){
         this.world.events.emit("updateObjects", [this.getInfo()])
-    }
-
-    private updateVel(){
-        let dt = 1/ this.world.updateRate
-        if(this.accel.x !== 0 || this.accel.y !== 0 ){
-            this.vel.x += this.accel.x * dt
-            this.vel.y += this.accel.y * dt
-            // this.vel.limit(this.maxVel);
-        }
     }
 
 }

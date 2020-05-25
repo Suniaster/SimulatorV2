@@ -10,7 +10,7 @@ export default class ActionField extends RectangleEntity{
         });
     }
 
-    public beforeUpdate(){
+    public beforeTimeStep(){
         this.x = this.owner.x;
         this.y = this.owner.y;      
     }

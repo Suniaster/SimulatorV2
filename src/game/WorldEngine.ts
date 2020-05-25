@@ -7,10 +7,11 @@ export default class World{
     private timeControl: NodeJS.Timeout
     static size = {width: 1200, height: 800}
     public time:number;
+    private fixedDt:number
     public events: EventEmitter;
 
     // Options
-    public updateRate: number;
+    private updateRate: number;
     public shouldHandleCollisions: boolean;
     public drawWorld: boolean
     public dom: WorldDomConfig;
@@ -30,6 +31,7 @@ export default class World{
         this.entities = new EntityManager(this);
         
         this.time = 0;
+        this.fixedDt = 1/this.updateRate;
         this.events = new EventEmitter();
 
         // Options
@@ -47,7 +49,16 @@ export default class World{
     public setup(){}
 
     public start(){
-        this.timeControl = setInterval(this.timeStep.bind(this), 1000/this.updateRate)
+        // this.timeControl = setInterval(this.timeStep.bind(this), 1000/this.updateRate)
+        if(this.drawWorld){
+            this.animate()
+        }
+    }
+
+    public animate(){
+        requestAnimationFrame(()=>this.animate())
+        this.timeStep();
+        this.draw();
     }
 
     public stop(){
@@ -58,17 +69,19 @@ export default class World{
         this.entities.reset();
     }
 
+    private draw(){
+        let ctx = this.dom.canvasCtx;
+        let canvas = this.dom.canvas
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        this.entities.collisionSystem.draw(ctx)
+    }
+
     private timeStep(){
         this.events.emit("preTimeStep")
-        this.entities.updateAllEntities();
+        this.entities.updateAllEntities(this.fixedDt);
         this.entities.performCollisions();
         this.time++;
-        if(this.drawWorld){
-            let ctx  = this.dom.canvasCtx;
-            let canvas = this.dom.canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            this.entities.collisionSystem.draw(ctx)
-        }
         this.events.emit("posTimeStep")
     }
 
