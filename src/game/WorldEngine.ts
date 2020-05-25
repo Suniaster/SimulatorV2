@@ -33,7 +33,7 @@ export default class World{
     public setup(){}
 
     public start(){
-        this.timeControl = setInterval(this.timeStep, 1000/this.updateRate)
+        this.timeControl = setInterval(this.timeStep.bind(this), 1000/this.updateRate)
     }
 
     public stop(){
@@ -44,7 +44,7 @@ export default class World{
         this.entities.reset();
     }
 
-    private timeStep = () => {
+    private timeStep(){
         this.events.emit("preTimeStep")
         this.entities.updateAllEntities();
         this.entities.performCollisions();
