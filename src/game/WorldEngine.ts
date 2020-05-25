@@ -6,12 +6,16 @@ export default class World{
     public entities: EntityManager
     private timeControl: NodeJS.Timeout
     static size = {width: 1200, height: 800}
-    public time:number;
-    private fixedDt:number
     public events: EventEmitter;
 
     // Options
     public config: WorldConfig;
+
+    //timers
+    public  time:number;
+    private fixedDt:number;
+    private timeAccumulator:number;
+    private lastStepTime:number;
 
     constructor(worldOptions:WorldConfig = {}){
         let defaultOption: WorldConfig = {
@@ -29,6 +33,8 @@ export default class World{
         
         this.time = 0;
         this.fixedDt = 1/this.config.updateRate;
+        this.lastStepTime = Date.now()/1000;
+        this.timeAccumulator = 0;
         this.events = new EventEmitter();
 
         // Options
@@ -60,9 +66,21 @@ export default class World{
 
     public timeStep(){
         this.events.emit("preTimeStep")
-        this.entities.updateAllEntities(this.fixedDt);
-        this.entities.performCollisions();
-        this.time++;
+
+        let nowTime = Date.now()/1000;
+        let frameTime = nowTime - this.lastStepTime
+        this.lastStepTime = nowTime;
+
+        this.timeAccumulator += frameTime;
+        
+        while(this.timeAccumulator >= this.fixedDt){
+            this.entities.updateAllEntities(this.fixedDt);
+            this.entities.performCollisions();
+
+            this.timeAccumulator -= this.fixedDt;
+            this.time += this.fixedDt;
+        }
+
         this.events.emit("posTimeStep")
     }
 
