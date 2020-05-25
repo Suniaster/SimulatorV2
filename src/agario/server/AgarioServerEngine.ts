@@ -1,8 +1,8 @@
-import ServerEngine from "./ServerEngine";
-import Agario from "../game/Agario";
-import Blob from "../game/entities/Blob";
-import World from "../game/WorldEngine";
-import Glob from "../game/entities/Glob";
+import ServerEngine from "../../server/ServerEngine";
+import Agario from "../../game/Agario";
+import Blob from "../../game/entities/Blob";
+import World from "../../game/WorldEngine";
+import Glob from "../../game/entities/Glob";
 
 export default class AgarioServerEngine extends ServerEngine {
   world: Agario;

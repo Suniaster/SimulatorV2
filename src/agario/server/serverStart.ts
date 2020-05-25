@@ -1,5 +1,5 @@
-import ServerController from "./ServerController";
-import Agario from "../game/Agario";
+import ServerController from "../../server/ServerController";
+import Agario from "../../game/Agario";
 import AgarioServerEngine from "./AgarioServerEngine";
 
 let server = new ServerController();

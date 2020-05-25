@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/client/index.ts',
+  entry: './src/agario/client/clientStart.ts',
   module: {
     rules: [
       {

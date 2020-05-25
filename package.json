@@ -6,7 +6,7 @@
     "build": "tsc",
     "webpack": "node ./node_modules/.bin/webpack",
     "full-build": "yarn build && yarn webpack",
-    "start": "node ./dist/server"
+    "start": "node ./dist/agario/server/serverStart"
   },
   "license": "MIT",
   "devDependencies": {

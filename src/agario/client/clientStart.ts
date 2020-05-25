@@ -1,5 +1,5 @@
-import Agario from "../game/Agario";
-import ClientEngine from "./ClientEngine";
+import Agario from "../../game/Agario";
+import ClientEngine from "../../client/ClientEngine";
 
 let agario = new Agario({
   updateRate: 60,
