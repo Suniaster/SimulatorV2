@@ -1,152 +1,153 @@
-import  { Polygon } from 'detect-collisions'
-import { EntityInfo, EntityOptions } from '../helpers/types';
-import Vector2D from '../helpers/Vector2D';
-import World from '../WorldEngine';
-import { v4 as uuidv4 } from 'uuid';
+import { Polygon } from "detect-collisions";
+import { EntityInfo, EntityOptions } from "../helpers/types";
+import Vector2D from "../helpers/Vector2D";
+import World from "../WorldEngine";
+import { v4 as uuidv4 } from "uuid";
 
 export type Point = {
-    x: number,
-    y: number
-}
+  x: number;
+  y: number;
+};
 
 export type Vector = {
-    a: Point,
-    b: Point
-}
+  a: Point;
+  b: Point;
+};
 
+export default abstract class Entity extends Polygon {
+  private vel: Vector2D;
+  private accel: Vector2D;
+  private growthRate: number;
+  protected maxVel: number;
+  public readonly type: string;
+  protected points: number[][];
+  public readonly id: string;
 
-export default abstract class Entity extends Polygon{
-    private vel: Vector2D;
-    private accel: Vector2D;
-    private growthRate: number;
-    protected maxVel: number;
-    public readonly type: string; 
-    protected points: number[][];
-    public readonly id:string;
+  constructor(
+    public world: World,
+    entityOptions: EntityOptions = {},
+  ) {
+    super(
+      entityOptions.position.x,
+      entityOptions.position.y,
+      entityOptions.points,
+    );
 
-    constructor(
-        public world:World,
-        entityOptions: EntityOptions = {}
-    ){
-        super(
-            entityOptions.position.x, 
-            entityOptions.position.y,
-            entityOptions.points
-        )
-        
-        let defaultOptions: EntityOptions = {
-            position: {x: 0,y: 0},
-            points: [[0,0]],
-            id: uuidv4(),
-            vel: new Vector2D(0,0),
-            accel: new Vector2D(0,0),
-            growthRate: 1, 
-            maxVel: 300
-        }
+    let defaultOptions: EntityOptions = {
+      position: { x: 0, y: 0 },
+      points: [[0, 0]],
+      id: uuidv4(),
+      vel: new Vector2D(0, 0),
+      accel: new Vector2D(0, 0),
+      growthRate: 1,
+      maxVel: 300,
+    };
 
-        let opt = Object.assign(defaultOptions, entityOptions)
-        //
-        this.points = opt.points
-        this.id     = opt.id
-        this.vel    = opt.vel
-        this.maxVel = opt.maxVel;
-        this.accel  = opt.accel;
-        this.type   = this.constructor.name;
-        this.growthRate = opt.growthRate;
-    }
-    
-    public abstract handleCollisionWith(entity: Entity);
-    protected beforeMove(){}
-    protected afterMove(){}
-    protected beforeTimeStep(){}
-    protected afterTimeStep(){};
-    
-    public getInfo(): EntityInfo{
-        return {
-            position:{
-                x: this.x,
-                y: this.y,
-            },
-            vel: this.vel,
-            accel: this.accel,
-            type: this.type,
-            id: this.id,
-            growthRate: this.growthRate,
-            maxVel: this.maxVel
-        }
-    }
+    let opt = Object.assign(defaultOptions, entityOptions);
+    //
+    this.points = opt.points;
+    this.id = opt.id;
+    this.vel = opt.vel;
+    this.maxVel = opt.maxVel;
+    this.accel = opt.accel;
+    this.type = this.constructor.name;
+    this.growthRate = opt.growthRate;
+  }
 
-    public updateByInfo(info:EntityInfo){
-        this.x = info.position.x
-        this.y = info.position.y
+  public abstract handleCollisionWith(entity: Entity);
+  protected beforeMove() {}
+  protected afterMove() {}
+  protected beforeTimeStep() {}
+  protected afterTimeStep() {}
 
-        this.vel = info.vel
-        this.accel = info.accel
-        this.growthRate = info.growthRate
-        this.maxVel = info.maxVel
-    }
-    /**
+  public getInfo(): EntityInfo {
+    return {
+      position: {
+        x: this.x,
+        y: this.y,
+      },
+      vel: this.vel,
+      accel: this.accel,
+      type: this.type,
+      id: this.id,
+      growthRate: this.growthRate,
+      maxVel: this.maxVel,
+    };
+  }
+
+  public updateByInfo(info: EntityInfo) {
+    this.x = info.position.x;
+    this.y = info.position.y;
+
+    this.vel = info.vel;
+    this.accel = info.accel;
+    this.growthRate = info.growthRate;
+    this.maxVel = info.maxVel;
+  }
+  /**
      *  return a boolean indicating if entity has moved
      */
-    public timeStep(dt:number): boolean{
-        this.beforeTimeStep();
-        
-        this.vel.x += this.accel.x * dt
-        this.vel.y += this.accel.y * dt
-     
+  public timeStep(dt: number): boolean {
+    this.beforeTimeStep();
 
-        if(this.growthRate !== 1){
-            this.scale({scale_x: Math.pow(this.growthRate, dt), scale_y: Math.pow(this.growthRate, dt)})
-        }
+    this.vel.x += this.accel.x * dt;
+    this.vel.y += this.accel.y * dt;
 
-        if(this.vel.x !== 0 || this.vel.y !== 0){
-            this.beforeMove();
-            this.x += (this.vel.x * dt) 
-            this.y += (this.vel.y * dt) 
-            this.afterMove();
-            this.afterTimeStep();
-            return true;
-        }
-        else{
-            this.afterTimeStep();
-            return false;
-        }
+    if (this.growthRate !== 1) {
+      this.scale(
+        {
+          scale_x: Math.pow(this.growthRate, dt),
+          scale_y: Math.pow(this.growthRate, dt),
+        },
+      );
     }
 
-    public changeVel(newVel: Point){
-        this.vel.x = newVel.x
-        this.vel.y = newVel.y
-        this.emitSelfUpdate();
+    if (this.vel.x !== 0 || this.vel.y !== 0) {
+      this.beforeMove();
+      this.x += (this.vel.x * dt);
+      this.y += (this.vel.y * dt);
+      this.afterMove();
+      this.afterTimeStep();
+      return true;
+    } else {
+      this.afterTimeStep();
+      return false;
     }
+  }
 
-    public changeGrowthRate(newGrowthRate:number, emitEvent=true){
-        this.growthRate = newGrowthRate
-        if(emitEvent)
-            this.emitSelfUpdate();
+  public changeVel(newVel: Point) {
+    this.vel.x = newVel.x;
+    this.vel.y = newVel.y;
+    this.emitSelfUpdate();
+  }
+
+  public changeGrowthRate(newGrowthRate: number, emitEvent = true) {
+    this.growthRate = newGrowthRate;
+    if (emitEvent) {
+      this.emitSelfUpdate();
     }
+  }
 
-    public create(){
-        this.world.entities.register(this);
-    }
+  public create() {
+    this.world.entities.register(this);
+  }
 
-    public destroy(){
-        this.world
-            .entities
-            .remove(this) 
-    }
-    
-    public getPosVector(){
-        return new Vector2D(this.x, this.y)
-    }
+  public destroy() {
+    this.world
+      .entities
+      .remove(this);
+  }
 
-    protected scale({scale_x=1, scale_y=1}){
-        this.scale_x *= scale_x
-        this.scale_y *= scale_y
+  public getPosVector() {
+    return new Vector2D(this.x, this.y);
+  }
 
-    }
+  protected scale({ scale_x = 1, scale_y = 1 }) {
+    this.scale_x *= scale_x;
+    this.scale_y *= scale_y;
+  }
 
-    public emitSelfUpdate(){
-        this.world.events.emit("updateObjects", [this.getInfo()])
-    }
-
+  public emitSelfUpdate() {
+    this.world.events.emit("updateObjects", [this.getInfo()]);
+  }
 }

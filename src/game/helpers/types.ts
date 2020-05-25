@@ -1,46 +1,46 @@
-import Vector2D from "./Vector2D"
+import Vector2D from "./Vector2D";
 
 export type EntityInfo = {
-    position: Point,
-    vel: Vector2D,
-    accel: Vector2D,
-    type: string,
-    id: string,
-    growthRate: number,
-    maxVel: number,
-    size?: {width:number, height:number}
-}
+  position: Point;
+  vel: Vector2D;
+  accel: Vector2D;
+  type: string;
+  id: string;
+  growthRate: number;
+  maxVel: number;
+  size?: { width: number; height: number };
+};
 
-export type EntityOptions={
-    position?: Point,
-    points?: number[][],
-    id?: string,
-    vel?: Vector2D,
-    accel?: Vector2D,
-    maxVel?: number,
-    growthRate?: number,
-    size?: {width:number, height:number}
-}
+export type EntityOptions = {
+  position?: Point;
+  points?: number[][];
+  id?: string;
+  vel?: Vector2D;
+  accel?: Vector2D;
+  maxVel?: number;
+  growthRate?: number;
+  size?: { width: number; height: number };
+};
 
 export type Point = {
-    x: number,
-    y: number
-}
+  x: number;
+  y: number;
+};
 
 export type Vector = {
-    a: Point,
-    b: Point
-}
+  a: Point;
+  b: Point;
+};
 
 export type WorldConfig = {
-    updateRate?: number,
-    shouldHandleCollisions?: boolean,
-    drawWorld?: boolean,
-    dom?: WorldDomConfig
-}
+  updateRate?: number;
+  shouldHandleCollisions?: boolean;
+  drawWorld?: boolean;
+  dom?: WorldDomConfig;
+};
 
 export type WorldDomConfig = {
-    canvasId?: string,
-    canvasCtx?: CanvasRenderingContext2D,
-    canvas?: HTMLCanvasElement
-}
+  canvasId?: string;
+  canvasCtx?: CanvasRenderingContext2D;
+  canvas?: HTMLCanvasElement;
+};

@@ -3,38 +3,37 @@ import World from "../WorldEngine";
 import RectangleEntity from "./RectangleEntity";
 import { EntityOptions } from "../helpers/types";
 
-export default class Blob extends RectangleEntity{
-    static minSize = 25;
-    constructor(world: World, entityOptions: EntityOptions){
-        entityOptions.size = {width: 100,height: 100}
-        super(world, entityOptions)
-        
-        this.changeGrowthRate(0.95, false);
-        this.maxVel = 100;
-    }
+export default class Blob extends RectangleEntity {
+  static minSize = 25;
+  constructor(world: World, entityOptions: EntityOptions) {
+    entityOptions.size = { width: 100, height: 100 };
+    super(world, entityOptions);
 
-    protected afterUpdate(){
-        if(this.size.width < Blob.minSize){
-            this.destroy();
-        }
-    }
+    this.changeGrowthRate(0.95, false);
+    this.maxVel = 100;
+  }
 
-    public handleCollisionWith(entity: Entity){
-        if(entity.type === "Glob"){
-            entity.destroy();
-            this.changeSize({
-                width: this.size.width + 15,
-                height: this.size.height + 15
-            })
-        }
-        return;
+  protected afterUpdate() {
+    if (this.size.width < Blob.minSize) {
+      this.destroy();
     }
+  }
 
-    moveInDirection(direction:{ x: -1 | 0 | 1, y: -1 | 0 | 1 }){
-        this.changeVel({
-            x: this.maxVel*direction.x,
-            y: this.maxVel*direction.y
-        })
+  public handleCollisionWith(entity: Entity) {
+    if (entity.type === "Glob") {
+      entity.destroy();
+      this.changeSize({
+        width: this.size.width + 15,
+        height: this.size.height + 15,
+      });
     }
+    return;
+  }
 
+  moveInDirection(direction: { x: -1 | 0 | 1; y: -1 | 0 | 1 }) {
+    this.changeVel({
+      x: this.maxVel * direction.x,
+      y: this.maxVel * direction.y,
+    });
+  }
 }

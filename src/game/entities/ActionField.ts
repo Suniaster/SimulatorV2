@@ -1,19 +1,18 @@
 import Entity from "./Entity";
 import RectangleEntity from "./RectangleEntity";
 
+export default class ActionField extends RectangleEntity {
+  constructor(size: { width: number; height: number }, private owner: Entity) {
+    super(owner.world, {
+      position: { x: owner.x, y: owner.y },
+      size,
+    });
+  }
 
-export default class ActionField extends RectangleEntity{
-    constructor(size:{width: number, height: number}, private owner: Entity ){
-        super(owner.world, { 
-            position:{x: owner.x, y:owner.y}, 
-            size
-        });
-    }
+  public beforeTimeStep() {
+    this.x = this.owner.x;
+    this.y = this.owner.y;
+  }
 
-    public beforeTimeStep(){
-        this.x = this.owner.x;
-        this.y = this.owner.y;      
-    }
-
-    public handleCollisionWith(entity: Entity){}
+  public handleCollisionWith(entity: Entity) {}
 }
