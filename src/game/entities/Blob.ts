@@ -13,7 +13,7 @@ export default class Blob extends RectangleEntity {
     this.maxVel = 100;
   }
 
-  protected afterUpdate() {
+  protected afterTimeStep() {
     if (this.size.width < Blob.minSize) {
       this.destroy();
     }

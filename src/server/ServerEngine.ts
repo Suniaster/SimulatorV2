@@ -47,7 +47,7 @@ export default class ServerEngine {
 
   protected registerEventListener(
     name: string,
-    handler: (socket, ...args) => void,
+    handler: (socket:SocketIO.Socket, ...args) => void,
   ) {
     this.possibleEvents.push({
       name,
@@ -78,7 +78,7 @@ export default class ServerEngine {
     this.setup();
     setInterval(
       () => this.world.timeStep(),
-      1000,
+      1000/60,
     );
   }
 }

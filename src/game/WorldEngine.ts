@@ -18,7 +18,7 @@ export default class World {
 
   constructor(worldOptions: WorldConfig = {}) {
     let defaultOption: WorldConfig = {
-      updateRate: 15,
+      updateRate: 30,
       handleCollisions: true,
       drawWorld: false,
       dom: {

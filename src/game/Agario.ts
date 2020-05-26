@@ -20,4 +20,10 @@ export default class Agario extends World {
     blob.create();
     return blob;
   }
+
+  public createRandomGlob(){
+    let pos = World.generateRandomCoord();
+    let g = new Glob(this, { position: { x: pos.x, y: pos.y } });
+    g.create();
+  }
 }
