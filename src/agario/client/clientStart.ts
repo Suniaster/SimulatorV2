@@ -3,7 +3,7 @@ import AgarioClient from "./AgarioClientEngine";
 
 let agario = new Agario({
   updateRate: 60,
-  shouldHandleCollisions: false,
+  handleCollisions: false,
   dom: {
     canvasId: "myCanvas",
   },

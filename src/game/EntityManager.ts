@@ -53,18 +53,19 @@ export default class EntityManager {
   }
 
   public performCollisions() {
-    this.collisionSystem.update();
+    if (this.world.config.handleCollisions) {
+      this.collisionSystem.update();
 
-    for (let id of Object.keys(this.entites)) {
-      let entity = this.entites[id];
-      if (!entity) continue;
+      for (let id of Object.keys(this.entites)) {
+        let entity = this.entites[id];
+        if (!entity) continue;
 
-      let potential = entity.potentials() as Entity[];
-      for (let anotherEntity of potential) {
-        if (entity.collides(anotherEntity)) {
-          this.world.events.emit("entities/collision", entity, anotherEntity);
-          if (this.world.config.shouldHandleCollisions) {
+        let potential = entity.potentials() as Entity[];
+        for (let anotherEntity of potential) {
+          if (entity.collides(anotherEntity)) {
+            this.world.events.emit("entities/collision", entity, anotherEntity);
             entity.handleCollisionWith(anotherEntity);
+            
           }
         }
       }

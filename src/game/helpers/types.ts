@@ -34,7 +34,7 @@ export type Vector = {
 
 export type WorldConfig = {
   updateRate?: number;
-  shouldHandleCollisions?: boolean;
+  handleCollisions?: boolean;
   drawWorld?: boolean;
   dom?: WorldDomConfig;
 };
