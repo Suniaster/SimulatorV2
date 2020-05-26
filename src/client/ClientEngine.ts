@@ -6,10 +6,15 @@ export default class ClientEngine {
   public clientId: string;
   protected events: EventEmitter;
   protected animationPaused: boolean;
-  constructor(protected world: World) {
+
+  constructor(public world: World) {
     this.socket = io();
     this.events = new EventEmitter();
     this.animationPaused = false;
+
+    let canvas = this.world.config.dom.canvas;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
 
   start() {
@@ -37,7 +42,7 @@ export default class ClientEngine {
   }
 
   startAnimation() {
-    this.setup();
+    this.animationSetup();
     this.animate();
   }
 
@@ -57,5 +62,5 @@ export default class ClientEngine {
     this.world.timeStep();
     this.world.draw();
   }
-  setup() {}
+  animationSetup() {}
 }

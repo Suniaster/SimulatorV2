@@ -1,5 +1,5 @@
 import Agario from "../../game/Agario";
-import ClientEngine from "../../client/ClientEngine";
+import AgarioClient from "./AgarioClientEngine";
 
 let agario = new Agario({
   updateRate: 60,
@@ -10,4 +10,4 @@ let agario = new Agario({
   drawWorld: true,
 });
 
-new ClientEngine(agario).start();
+new AgarioClient(agario).start();
