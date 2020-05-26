@@ -30,8 +30,11 @@ export default class AgarioClient extends ClientEngine {
     else return;
 
     // if dirChanges
-    if(this.playerDir.x !== x || this.playerDir.y !== y)
-    this.socket.emit("player/changeDir", this.playerDir)
+    if(this.playerDir.x !== x || this.playerDir.y !== y){
+      this.playerDir.x = x
+      this.playerDir.y = y
+      this.socket.emit("player/changeDir", this.playerDir)
+    }
   }
 
   addDir(key:string){
@@ -44,7 +47,10 @@ export default class AgarioClient extends ClientEngine {
     else return;
 
     // if dirChanges
-    if(this.playerDir.x !== x || this.playerDir.y !== y)
-    this.socket.emit("player/changeDir", this.playerDir)
+    if(this.playerDir.x !== x || this.playerDir.y !== y){
+      this.playerDir.x = x
+      this.playerDir.y = y
+      this.socket.emit("player/changeDir", this.playerDir)
+    }
   }
 }
