@@ -1,20 +1,50 @@
 import io from "socket.io-client";
 import World from "../game/WorldEngine";
 import { EventEmitter } from "events";
+import { ClientEngineConfig } from "../game/helpers/types";
+
 export default class ClientEngine {
   public socket: SocketIOClient.Socket;
   public clientId: string;
   protected events: EventEmitter;
   protected animationPaused: boolean;
+  protected config: ClientEngineConfig;
 
-  constructor(public world: World) {
+  constructor(public world: World, config: ClientEngineConfig = {}) {
+    let canvasDefault = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      id: "myCanvas",
+    };
+    if (config.canvas) {
+      config.canvas = Object.assign(canvasDefault, config.canvas);
+    }
+    let defaultOptions = {
+      canvas: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        id: "myCanvas",
+      },
+      handleCollisions: false,
+    };
+
+    this.config = Object.assign(defaultOptions, config);
     this.socket = io();
     this.events = new EventEmitter();
     this.animationPaused = false;
 
-    let canvas = this.world.config.dom.canvas;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Default options of world when client
+    this.world.config.handleCollisions = this.config.handleCollisions;
+    this.world.config.drawWorld = true;
+    this.world.setCanvas(this.config.canvas.id);
+
+    // Canvas default values
+    let canvas = document.getElementById(
+      this.config.canvas.id,
+    ) as HTMLCanvasElement;
+    console.log(this.config.canvas);
+    canvas.width = this.config.canvas.width;
+    canvas.height = this.config.canvas.height;
   }
 
   start() {

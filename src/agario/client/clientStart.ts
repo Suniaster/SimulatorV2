@@ -2,12 +2,13 @@ import Agario from "../../game/Agario";
 import AgarioClient from "./AgarioClientEngine";
 
 let agario = new Agario({
-  updateRate: 60,
-  handleCollisions: false,
-  dom: {
-    canvasId: "myCanvas",
-  },
-  drawWorld: true,
+  updateRate: 120,
 });
 
-new AgarioClient(agario).start();
+let client = new AgarioClient(agario, {
+  canvas: {
+    id: "myCanvas",
+  },
+});
+
+client.start();

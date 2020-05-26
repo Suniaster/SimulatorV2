@@ -38,14 +38,7 @@ export default class World {
 
     // Options
     if (this.config.drawWorld) {
-      this.config
-        .dom
-        .canvas = document.getElementById(
-          this.config.dom.canvasId,
-        ) as HTMLCanvasElement;
-      if (!this.config.dom.canvasCtx) {
-        this.config.dom.canvasCtx = this.config.dom.canvas.getContext("2d");
-      }
+      this.setCanvas(this.config.dom.canvasId);
     }
   }
 
@@ -78,6 +71,16 @@ export default class World {
     }
 
     this.events.emit("posTimeStep");
+  }
+
+  public setCanvas(canvasId: string) {
+    this.config.dom.canvasId = canvasId;
+    this.config
+      .dom
+      .canvas = document.getElementById(
+        canvasId,
+      ) as HTMLCanvasElement;
+    this.config.dom.canvasCtx = this.config.dom.canvas.getContext("2d");
   }
 
   static generateRandomCoord() {

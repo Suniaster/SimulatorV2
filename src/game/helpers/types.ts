@@ -44,3 +44,14 @@ export type WorldDomConfig = {
   canvasCtx?: CanvasRenderingContext2D;
   canvas?: HTMLCanvasElement;
 };
+
+export type ClientEngineConfig = {
+  canvas?: {
+    width?: number;
+    height?: number;
+    id?: string;
+  };
+  handleCollisions?: boolean;
+};
+
+export type ServerEngineConfig = {};
