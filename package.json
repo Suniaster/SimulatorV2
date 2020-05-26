@@ -6,7 +6,8 @@
     "build": "tsc",
     "webpack": "node ./node_modules/.bin/webpack",
     "full-build": "yarn build && yarn webpack",
-    "start": "node ./dist/agario/server/serverStart"
+    "start": "node ./dist/agario/server/serverStart",
+    "generate-doc": "node ./node_modules/.bin/typedoc --out ./doc ./src"
   },
   "license": "MIT",
   "devDependencies": {
@@ -17,6 +18,7 @@
     "@types/socket.io-client": "^1.4.32",
     "@types/uuid": "^8.0.0",
     "ts-loader": "^7.0.2",
+    "typedoc": "^0.17.7",
     "typescript": "^3.8.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
