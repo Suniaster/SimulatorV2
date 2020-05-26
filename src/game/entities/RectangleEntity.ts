@@ -45,4 +45,9 @@ export default abstract class RectangleEntity extends Entity {
     this.size.width *= scale_x;
     this.size.height *= scale_y;
   }
+
+  updateByInfo(info:any){
+    super.updateByInfo(info)
+    this.size = info.size
+  }
 }

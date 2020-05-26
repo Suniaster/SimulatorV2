@@ -72,6 +72,10 @@ export default abstract class Entity extends Polygon {
       id: this.id,
       growthRate: this.growthRate,
       maxVel: this.maxVel,
+      scale: {
+        x: this.scale_x,
+        y: this.scale_y
+      }
     };
   }
 
@@ -83,6 +87,8 @@ export default abstract class Entity extends Polygon {
     this.accel = info.accel;
     this.growthRate = info.growthRate;
     this.maxVel = info.maxVel;
+    this.scale_x = info.scale.x;
+    this.scale_y = info.scale.y
   }
   /**
      *  return a boolean indicating if entity has moved

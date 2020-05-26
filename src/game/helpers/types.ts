@@ -9,6 +9,10 @@ export type EntityInfo = {
   growthRate: number;
   maxVel: number;
   size?: { width: number; height: number };
+  scale: {
+    x: number,
+    y: number
+  }
 };
 
 export type EntityOptions = {

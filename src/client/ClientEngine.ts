@@ -67,7 +67,7 @@ export default class ClientEngine {
 
     this.socket.on("objectDestroyed", (id) => {
       let ent = this.world.entities.getEntity(id);
-      ent.destroy();
+      if(ent) ent.destroy();
     });
   }
 
