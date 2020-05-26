@@ -30,6 +30,16 @@ export default class Blob extends RectangleEntity {
     return;
   }
 
+  draw(ctx: CanvasRenderingContext2D){
+    ctx.strokeStyle = '#ab1311';
+    ctx.fillStyle = '#ffdb12'
+    ctx.beginPath();
+    super.draw(ctx);
+    ctx.stroke();
+    ctx.closePath();
+    ctx.fill();
+  }
+
   moveInDirection(direction: { x: -1 | 0 | 1; y: -1 | 0 | 1 }) {
     this.changeVel({
       x: this.maxVel * direction.x,
