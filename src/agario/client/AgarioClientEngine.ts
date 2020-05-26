@@ -21,22 +21,30 @@ export default class AgarioClient extends ClientEngine {
   }
 
   removeDir(key:string){
-    if     (key === 'w') this.playerDir.y = 0;
-    else if(key === 'a') this.playerDir.x = 0;
-    else if(key === 's') this.playerDir.y = 0;
-    else if(key === 'd') this.playerDir.x = 0;
+    let x = this.playerDir.x,
+        y = this.playerDir.y
+    if     (key === 'w') y = 0;
+    else if(key === 'a') x = 0;
+    else if(key === 's') y = 0;
+    else if(key === 'd') x = 0;
     else return;
 
+    // if dirChanges
+    if(this.playerDir.x !== x || this.playerDir.y !== y)
     this.socket.emit("player/changeDir", this.playerDir)
   }
 
   addDir(key:string){
-    if     (key === 'w') this.playerDir.y =-1;
-    else if(key === 'a') this.playerDir.x =-1;
-    else if(key === 's') this.playerDir.y = 1;
-    else if(key === 'd') this.playerDir.x = 1;
+    let x = this.playerDir.x,
+        y = this.playerDir.y
+    if     (key === 'w') y =-1;
+    else if(key === 'a') x =-1;
+    else if(key === 's') y = 1;
+    else if(key === 'd') x = 1;
     else return;
 
+    // if dirChanges
+    if(this.playerDir.x !== x || this.playerDir.y !== y)
     this.socket.emit("player/changeDir", this.playerDir)
   }
 }
