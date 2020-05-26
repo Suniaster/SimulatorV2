@@ -15,9 +15,17 @@ export default class Keyboard {
     document.addEventListener("keydown", (ev) => {
       let key = ev.key;
       if (this.eventsNames[key]) {
-        client.socket.emit("keyboard/" + this.eventsNames[key].eventName);
+        client.socket.emit("keyboard/keydown/" + this.eventsNames[key].eventName);
       }
     });
+
+    document.addEventListener("keyup", (ev) => {
+      let key = ev.key;
+      if (this.eventsNames[key]) {
+        client.socket.emit("keyboard/keyup/" + this.eventsNames[key].eventName);
+      }
+    });
+
     this.eventsNames = {};
   }
 
