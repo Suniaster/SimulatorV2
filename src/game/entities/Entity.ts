@@ -1,5 +1,5 @@
 import { Polygon } from "detect-collisions";
-import { EntityInfo, EntityOptions } from "../helpers/types";
+import { EntityOptions } from "../helpers/types";
 import Vector2D from "../helpers/Vector2D";
 import World from "../WorldEngine";
 import { v4 as uuidv4 } from "uuid";
@@ -28,13 +28,14 @@ export default abstract class Entity extends Polygon {
     entityOptions: EntityOptions = {},
   ) {
     super(
-      entityOptions.position.x,
-      entityOptions.position.y,
+      entityOptions.x,
+      entityOptions.y,
       entityOptions.points,
     );
 
     let defaultOptions: EntityOptions = {
-      position: { x: 0, y: 0 },
+      x: 0,
+      y: 0,
       points: [[0, 0]],
       id: uuidv4(),
       vel: new Vector2D(0, 0),
@@ -44,14 +45,8 @@ export default abstract class Entity extends Polygon {
     };
 
     let opt = Object.assign(defaultOptions, entityOptions);
-    //
-    this.points = opt.points;
-    this.id = opt.id;
-    this.vel = opt.vel;
-    this.maxVel = opt.maxVel;
-    this.accel = opt.accel;
+    this.updateByInfo(opt);
     this.type = this.constructor.name;
-    this.growthRate = opt.growthRate;
   }
 
   public abstract handleCollisionWith(entity: Entity);
@@ -60,35 +55,25 @@ export default abstract class Entity extends Polygon {
   protected beforeTimeStep() {}
   protected afterTimeStep() {}
 
-  public getInfo(): EntityInfo {
+  public getInfo(): EntityOptions {
     return {
-      position: {
-        x: this.x,
-        y: this.y,
-      },
+      x: this.x,
+      y: this.y,
       vel: this.vel,
       accel: this.accel,
       type: this.type,
       id: this.id,
       growthRate: this.growthRate,
       maxVel: this.maxVel,
-      scale: {
-        x: this.scale_x,
-        y: this.scale_y
-      }
+      scale_x: this.scale_x,
+      scale_y: this.scale_y,
     };
   }
 
-  public updateByInfo(info: EntityInfo) {
-    this.x = info.position.x;
-    this.y = info.position.y;
-
-    this.vel = info.vel;
-    this.accel = info.accel;
-    this.growthRate = info.growthRate;
-    this.maxVel = info.maxVel;
-    this.scale_x = info.scale.x;
-    this.scale_y = info.scale.y
+  public updateByInfo(info: EntityOptions) {
+    for (let key in info) {
+      this[key] = info[key];
+    }
   }
   /**
      *  return a boolean indicating if entity has moved
@@ -124,13 +109,13 @@ export default abstract class Entity extends Polygon {
   public changeVel(newVel: Point) {
     this.vel.x = newVel.x;
     this.vel.y = newVel.y;
-    this.emitSelfUpdate();
+    this.emitSelfUpdate({ vel: this.vel });
   }
 
   public changeGrowthRate(newGrowthRate: number, emitEvent = true) {
     this.growthRate = newGrowthRate;
     if (emitEvent) {
-      this.emitSelfUpdate();
+      this.emitSelfUpdate({ growthRate: this.growthRate });
     }
   }
 
@@ -151,9 +136,11 @@ export default abstract class Entity extends Polygon {
   protected scale({ scale_x = 1, scale_y = 1 }) {
     this.scale_x *= scale_x;
     this.scale_y *= scale_y;
+    this.emitSelfUpdate({ scale_x: this.scale_x, scale_y: this.scale_y });
   }
 
-  public emitSelfUpdate() {
-    this.world.events.emit("updateObjects", [this.getInfo()]);
+  public emitSelfUpdate(changes = this.getInfo()) {
+    changes.id = this.id;
+    this.world.events.emit("updateObjects", [changes]);
   }
 }

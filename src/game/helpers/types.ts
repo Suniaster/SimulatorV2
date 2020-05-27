@@ -1,30 +1,24 @@
 import Vector2D from "./Vector2D";
 
-export type EntityInfo = {
-  position: Point;
-  vel: Vector2D;
-  accel: Vector2D;
-  type: string;
-  id: string;
-  growthRate: number;
-  maxVel: number;
-  size?: { width: number; height: number };
-  scale: {
-    x: number,
-    y: number
-  }
-};
-
 export type EntityOptions = {
-  position?: Point;
+  x?: number;
+  y?: number;
   points?: number[][];
   id?: string;
   vel?: Vector2D;
   accel?: Vector2D;
   maxVel?: number;
   growthRate?: number;
-  size?: { width: number; height: number };
+  scale_x?: number;
+  scale_y?: number;
+  type?: string;
+  [key: string]: any;
 };
+
+export interface RectangleEntityOptions extends EntityOptions {
+  width?: number;
+  height?: number;
+}
 
 export type Point = {
   x: number;

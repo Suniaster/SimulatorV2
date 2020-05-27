@@ -1,6 +1,5 @@
 import SocketIO from "socket.io";
 import http from "http";
-import { EntityInfo } from "../game/helpers/types";
 import World from "../game/WorldEngine";
 
 export default class ServerEngine {
@@ -47,7 +46,7 @@ export default class ServerEngine {
 
   protected registerEventListener(
     name: string,
-    handler: (socket:SocketIO.Socket, ...args) => void,
+    handler: (socket: SocketIO.Socket, ...args) => void,
   ) {
     this.possibleEvents.push({
       name,
@@ -78,7 +77,7 @@ export default class ServerEngine {
     this.setup();
     setInterval(
       () => this.world.timeStep(),
-      1000/60,
+      1000 / 60,
     );
   }
 }

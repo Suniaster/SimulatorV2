@@ -1,12 +1,13 @@
-import Entity, { Point } from "./Entity";
+import Entity from "./Entity";
 import World from "../WorldEngine";
 import RectangleEntity from "./RectangleEntity";
-import { EntityOptions } from "../helpers/types";
+import { RectangleEntityOptions } from "../helpers/types";
 
 export default class Blob extends RectangleEntity {
   static minSize = 25;
-  constructor(world: World, entityOptions: EntityOptions) {
-    entityOptions.size = { width: 100, height: 100 };
+  constructor(world: World, entityOptions: RectangleEntityOptions) {
+    entityOptions.width = 100;
+    entityOptions.height = 100;
     super(world, entityOptions);
 
     // this.changeGdddwwrowthRate(0.95, false);
@@ -14,7 +15,7 @@ export default class Blob extends RectangleEntity {
   }
 
   protected afterTimeStep() {
-    if (this.size.width < Blob.minSize) {
+    if (this.width < Blob.minSize) {
       this.destroy();
     }
   }
@@ -23,16 +24,16 @@ export default class Blob extends RectangleEntity {
     if (entity.type === "Glob") {
       entity.destroy();
       this.changeSize({
-        width: this.size.width + 15,
-        height: this.size.height + 15,
+        width: this.width + 15,
+        height: this.height + 15,
       });
     }
     return;
   }
 
-  draw(ctx: CanvasRenderingContext2D){
-    ctx.strokeStyle = '#ab1311';
-    ctx.fillStyle = '#ffdb12'
+  draw(ctx: CanvasRenderingContext2D) {
+    ctx.strokeStyle = "#ab1311";
+    ctx.fillStyle = "#ffdb12";
     ctx.beginPath();
     super.draw(ctx);
     ctx.stroke();

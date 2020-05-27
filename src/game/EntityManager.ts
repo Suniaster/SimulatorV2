@@ -1,6 +1,6 @@
 import Entity from "./entities/Entity";
 import { Collisions } from "detect-collisions";
-import { EntityInfo, EntityOptions } from "./helpers/types";
+import { EntityOptions } from "./helpers/types";
 import World from "./WorldEngine";
 
 export default class EntityManager {
@@ -26,7 +26,7 @@ export default class EntityManager {
     return this.entites[id];
   }
 
-  public getEntitiesInfo(): EntityInfo[] {
+  public getEntitiesInfo(): EntityOptions[] {
     return Object.values(this.entites).reduce((acc, entity) => {
       acc.push(entity.getInfo());
       return acc;
@@ -103,20 +103,20 @@ export default class EntityManager {
     return removed;
   }
 
-  public async createWithInfo(info: EntityInfo) {
+  public async createWithInfo(info: EntityOptions) {
     let entityConstructor = (await import("./entities/" + info.type)).default;
     let options: EntityOptions = info;
     let ent = new entityConstructor(this.world, options) as Entity;
     ent.create();
   }
 
-  public updateOrCreateWithInfo(info: EntityInfo) {
+  public updateOrCreateWithInfo(info: EntityOptions) {
     if (!this.updateWithInfo(info)) {
       this.createWithInfo(info);
     }
   }
 
-  public updateWithInfo(info: EntityInfo) {
+  public updateWithInfo(info: EntityOptions) {
     if (this.entites[info.id]) {
       let ent = this.entites[info.id];
       ent.updateByInfo(info);

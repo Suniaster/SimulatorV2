@@ -18,10 +18,10 @@ export default class AgarioServerEngine extends ServerEngine {
     }
   }
 
-  start(){
-    this.registerEventListener("player/changeDir", (socket, newDir)=>{
-      this.changeBlobDir(socket, newDir)
-    })
+  start() {
+    this.registerEventListener("player/changeDir", (socket, newDir) => {
+      this.changeBlobDir(socket, newDir);
+    });
 
     super.start();
   }
@@ -38,11 +38,11 @@ export default class AgarioServerEngine extends ServerEngine {
   changeBlobDir(
     socket: SocketIO.Socket,
     direction: { x: -1 | 0 | 1; y: -1 | 0 | 1 },
-  ){
+  ) {
     let blob = this.world.entities.getEntity(socket.id) as Blob;
     if (!blob) {
       blob = this.world.createBlob(socket.id) as Blob;
     }
     blob.moveInDirection(direction);
-  };
+  }
 }

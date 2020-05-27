@@ -1,53 +1,56 @@
 import Entity from "./Entity";
 import World from "../WorldEngine";
-import { Point, EntityOptions, EntityInfo } from "../helpers/types";
+import { RectangleEntityOptions } from "../helpers/types";
 
 export default abstract class RectangleEntity extends Entity {
-  private originalSize: { width: number; height: number };
-  size: { width: number; height: number };
-  constructor(world: World, entityOptions: EntityOptions) {
-    let size = entityOptions.size;
-    entityOptions.points = [
-      [-size.width / 2, -size.height / 2],
-      [size.width / 2, -size.height / 2],
-      [size.width / 2, size.height / 2],
-      [-size.width / 2, size.height / 2],
+  protected originalWidth: number;
+  protected originalHeight: number;
+  protected width: number;
+  protected height: number;
+  constructor(world: World, opt: RectangleEntityOptions) {
+    opt.points = [
+      [-opt.width / 2, -opt.height / 2],
+      [opt.width / 2, -opt.height / 2],
+      [opt.width / 2, opt.height / 2],
+      [-opt.width / 2, opt.height / 2],
     ];
-    super(world, entityOptions);
+    super(world, opt);
 
-    this.size = entityOptions.size;
-    this.originalSize = this.size;
+    this.originalWidth = opt.width;
+    this.originalHeight = opt.height;
   }
 
-  public getInfo(): EntityInfo {
+  public getInfo(): RectangleEntityOptions {
     let info = super.getInfo();
     return {
       ...info,
-      size: this.size,
+      width: this.width,
+      height: this.height,
     };
   }
 
   public changeSize(newSize: { width: number; height: number }) {
-    let new_scale_x = newSize.width / this.originalSize.width;
-    let new_scale_y = newSize.height / this.originalSize.height;
+    let new_scale_x = newSize.width / this.originalWidth;
+    let new_scale_y = newSize.height / this.originalHeight;
 
     this.scale_x = new_scale_x;
     this.scale_y = new_scale_y;
 
-    this.size = newSize;
-    this.emitSelfUpdate();
+    this.width = newSize.width;
+    this.height = newSize.height;
+    this.emitSelfUpdate({
+      scale_x: this.scale_x,
+      scale_y: this.scale_y,
+      width: this.width,
+      height: this.height,
+    });
   }
 
   protected scale({ scale_x = 1, scale_y = 1 }) {
     this.scale_x *= scale_x;
     this.scale_y *= scale_y;
 
-    this.size.width *= scale_x;
-    this.size.height *= scale_y;
-  }
-
-  updateByInfo(info:any){
-    super.updateByInfo(info)
-    this.size = info.size
+    this.width *= scale_x;
+    this.height *= scale_y;
   }
 }

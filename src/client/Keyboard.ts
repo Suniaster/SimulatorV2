@@ -12,10 +12,10 @@ export default class Keyboard {
     });
 
     document.addEventListener("keyup", (ev) => {
-      this.keydown(ev.key)
+      this.keydown(ev.key);
     });
   }
 
-  keyup(key:string){}
-  keydown(key:string){}
+  keyup(key: string) {}
+  keydown(key: string) {}
 }

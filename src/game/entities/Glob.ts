@@ -6,7 +6,8 @@ import Vector2D from "../helpers/Vector2D";
 
 export default class Glob extends RectangleEntity {
   constructor(world: World, entityOptions: EntityOptions) {
-    entityOptions.size = { width: 25, height: 25 };
+    entityOptions.width = 25;
+    entityOptions.height = 25;
     super(world, entityOptions);
   }
 

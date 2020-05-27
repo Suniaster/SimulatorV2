@@ -11,19 +11,17 @@ export default class Agario extends World {
   public createBlob(id?: string) {
     let spawnPoint = World.generateRandomCoord();
     let blob = new Blob(this, {
-      position: {
-        x: spawnPoint.x,
-        y: spawnPoint.y,
-      },
+      x: spawnPoint.x,
+      y: spawnPoint.y,
       id,
     });
     blob.create();
     return blob;
   }
 
-  public createRandomGlob(){
+  public createRandomGlob() {
     let pos = World.generateRandomCoord();
-    let g = new Glob(this, { position: { x: pos.x, y: pos.y } });
+    let g = new Glob(this, { x: pos.x, y: pos.y });
     g.create();
   }
 }
