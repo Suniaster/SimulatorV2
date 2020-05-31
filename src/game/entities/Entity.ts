@@ -106,11 +106,22 @@ export default abstract class Entity extends Polygon {
     }
   }
 
-  public changeVel(newVel: Point) {
+  public setAccel(newAccel:Point, emitEvent = true){
+    this.accel.x = newAccel.x;
+    this.accel.y = newAccel.y;
+
+    if(emitEvent)
+      this.emitSelfUpdate({ accel: this.accel })
+  }
+
+  public changeVel(newVel: Point, emitEvent = true) {
     this.vel.x = newVel.x;
     this.vel.y = newVel.y;
-    this.emitSelfUpdate({ vel: this.vel });
+    if(emitEvent)
+      this.emitSelfUpdate({ vel: this.vel });
   }
+
+  public getVel() {return this.vel}
 
   public changeGrowthRate(newGrowthRate: number, emitEvent = true) {
     this.growthRate = newGrowthRate;

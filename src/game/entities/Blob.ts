@@ -10,7 +10,7 @@ export default class Blob extends RectangleEntity {
     entityOptions.height = 100;
     super(world, entityOptions);
 
-    // this.changeGdddwwrowthRate(0.95, false);
+    this.changeGrowthRate(0.95, false);
     this.maxVel = 100;
   }
 

@@ -16,6 +16,13 @@ export default class AgarioServerEngine extends ServerEngine {
     for (let i = 0; i < 50; i += 1) {
       this.world.createRandomGlob();
     }
+
+    this.world.events.on("preTimeStep", ()=>{
+      let rand = Math.random();
+      if(rand < 0.02){
+        this.world.createRandomGlob();
+      }
+    })
   }
 
   start() {

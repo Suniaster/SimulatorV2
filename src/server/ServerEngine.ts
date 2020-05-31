@@ -75,9 +75,21 @@ export default class ServerEngine {
 
   startWorldLoop() {
     this.setup();
+
+    // Start world loop
     setInterval(
       () => this.world.timeStep(),
-      1000 / 60,
+      1000 / this.world.config.updateRate,
     );
+
+    // Send Full sync for every connection every 2s
+    setInterval(
+      () => this.sendFullSync(),
+      2000
+    )
+  }
+
+  private sendFullSync(){
+    this.io.emit('updateObjects', this.world.entities.getEntitiesInfo())
   }
 }
