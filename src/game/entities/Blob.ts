@@ -28,6 +28,24 @@ export default class Blob extends RectangleEntity {
         height: this.height + 15,
       });
     }
+
+    if(entity.type === "Blob") {
+      let blob = entity as Blob
+      if(this.width > blob.width){
+        this.changeSize({
+          width: this.width + blob.width - 10,
+          height: this.height + blob.height - 10,
+        });
+        blob.destroy();
+      }
+      else{
+        blob.changeSize({
+          width: this.width + blob.width - 10,
+          height:  this.height + blob.height - 10,
+        });
+        this.destroy();
+      }
+    }
     return;
   }
 
