@@ -15,6 +15,7 @@ export default class World {
   private fixedDt: number;
   private timeAccumulator: number;
   private lastStepTime: number;
+  private fps: number;
 
   constructor(worldOptions: WorldConfig = {}) {
     let defaultOption: WorldConfig = {
@@ -50,14 +51,20 @@ export default class World {
     let ctx = this.config.dom.canvasCtx;
     let canvas = this.config.dom.canvas;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#000000"
+    ctx.fillText((1/this.fps).toString(), 100 , 100)
     this.entities.collisionSystem.draw(ctx);
+    this.afterDraw(ctx);
   }
+
+  public afterDraw(ctx:CanvasRenderingContext2D){}
 
   public timeStep() {
     this.events.emit("preTimeStep");
 
     let nowTime = Date.now() / 1000;
     let frameTime = nowTime - this.lastStepTime;
+    this.fps = frameTime;
     this.lastStepTime = nowTime;
 
     this.timeAccumulator += frameTime;
